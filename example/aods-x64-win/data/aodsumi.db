@@ -1,0 +1,14 @@
+{
+	"aods": {
+		"aods-x64-win": {
+			"WorkDir": "./",
+			"Command": "sc stop aods & sc start aods"
+		}
+	},
+	"initial": {
+		"safe-police-win": {
+			"WorkDir": "./safe-police",
+			"Command": "cmd /c \"call .\\safe-police\\police.bat\""
+		}
+	}
+}
