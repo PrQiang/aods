@@ -38,7 +38,7 @@ class Publish:
 
     def __packetFile(self, fileName, folder):
         try:
-            with zipfile.ZipFile(fileName, 'w', zipfile.ZIP_STORED) as zf:
+            with zipfile.ZipFile(fileName, 'w', zipfile.ZIP_DEFLATED) as zf:
                 for root, sroot, files in os.walk(folder):
                     for file in files:
                         fullFileName = os.path.join(root, file)

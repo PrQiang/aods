@@ -60,6 +60,8 @@ void CAoKafkaModule::OnLoadCfg(const MT_MSG* pMM){
 	RdKafka::Conf* pTConf = RdKafka::Conf::create(RdKafka::Conf::CONF_TOPIC);
 	m_pCT = CConsumerThread::Create(strConsumerTopic.c_str(), pTConf, pGConf, 0, "", &m_evSigal, &nRet);
 	if (NULL == m_pCT){return ;}
+	pGConf = RdKafka::Conf::create(RdKafka::Conf::CONF_GLOBAL);
+	pGConf->set("metadata.broker.list", strBroker, strErr);
 	m_pProducer = RdKafka::Producer::create(pGConf, strErr);
 	if (NULL == m_pProducer){return;}
 	m_pTopic = RdKafka::Topic::create(m_pProducer, strProducerTopic, pTConf, strErr);

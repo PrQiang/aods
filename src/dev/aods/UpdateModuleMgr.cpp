@@ -106,16 +106,18 @@ void CUpdateModuleMgr::OnDownloadResult(const MT_MSG* pMM){
             sprintf(szBakFile, "%s/bak/%s/%s/%s", szDir, pszPrj, pszModule, szRelativeFile);
             CreateFileDir(szBakFile);
             CAoFile af;// 若正式文件存在，则将正式文件移动到临时目录下
-            if (EN_NOERROR == af.Open(szStandFile, "rb")) {af.Close();
-                CAoFileControl::CutFile(szStandFile, szBakFile);
-            }
+            if (EN_NOERROR == af.Open(szStandFile, "rb")) {af.Close();CAoFileControl::CutFile(szStandFile, szBakFile);}
             CreateFileDir(szStandFile);
             if (EN_NOERROR != af.Open(szStandFile, "wb")) { // 写入文件失败
                 LogErr("CUpdateModuleMgr::OnDownloadResult", "更新%s/%s至%s时解压文件打开%s失败", pszPrj, pszModule, pszFileVer, szFile);
                 pDR->ucRlt = EN_DR_UFA;
                 break;
             }
-            au.UnzipCurentFile(&af, "");
+            if (EN_NOERROR != au.UnzipCurentFile(&af, "")) {
+                LogErr("CUpdateModuleMgr::OnDownloadResult", "更新%s/%s至%s时解压文件%s失败", pszPrj, pszModule, pszFileVer, szFile);
+                pDR->ucRlt = EN_DR_UFA;
+                break;
+            }
             af.Close();
 #ifdef WIN32
 #else

@@ -69,23 +69,23 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>../bin/$(PlatformName)/$(Configuration)/</OutDir>
-    <IntDir>../obj/$(PlatformName)/$(Configuration)/$(ProjectName)/</IntDir>
+    <OutDir>../../../bin/$(PlatformName)/$(Configuration)/</OutDir>
+    <IntDir>../../../obj/$(PlatformName)/$(Configuration)/$(ProjectName)/</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>../bin/$(PlatformName)/$(Configuration)/</OutDir>
-    <IntDir>../obj/$(PlatformName)/$(Configuration)/$(ProjectName)/</IntDir>
+    <OutDir>../../../bin/$(PlatformName)/$(Configuration)/</OutDir>
+    <IntDir>../../../obj/$(PlatformName)/$(Configuration)/$(ProjectName)/</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>../bin/$(PlatformName)/$(Configuration)/</OutDir>
-    <IntDir>../obj/$(PlatformName)/$(Configuration)/$(ProjectName)/</IntDir>
+    <OutDir>../../../bin/$(PlatformName)/$(Configuration)/</OutDir>
+    <IntDir>../../../obj/$(PlatformName)/$(Configuration)/$(ProjectName)/</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>../bin/$(PlatformName)/$(Configuration)/</OutDir>
-    <IntDir>../obj/$(PlatformName)/$(Configuration)/$(ProjectName)/</IntDir>
+    <OutDir>../../../bin/$(PlatformName)/$(Configuration)/</OutDir>
+    <IntDir>../../../obj/$(PlatformName)/$(Configuration)/$(ProjectName)/</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -103,7 +103,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SuppressStartupBanner>false</SuppressStartupBanner>
       <AdditionalDependencies>WS2_32.lib;iphlpapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <ProgramDatabaseFile>../symbols/$(PlatformToolSet)/$(PlatformName)/$(Configuration)/$(PlatformTarget)/$(TargetName).pdb</ProgramDatabaseFile>
+      <ProgramDatabaseFile>../../../symbols/$(PlatformToolSet)/$(PlatformName)/$(Configuration)/$(PlatformTarget)/$(TargetName).pdb</ProgramDatabaseFile>
       <ProfileGuidedDatabase>$(IntDir)$(TargetName).pgd</ProfileGuidedDatabase>
     </Link>
   </ItemDefinitionGroup>
@@ -123,7 +123,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SuppressStartupBanner>false</SuppressStartupBanner>
       <AdditionalDependencies>WS2_32.lib;iphlpapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <ProgramDatabaseFile>../symbols/$(PlatformToolSet)/$(PlatformName)/$(Configuration)/$(PlatformTarget)/$(TargetName).pdb</ProgramDatabaseFile>
+      <ProgramDatabaseFile>../../../symbols/$(PlatformToolSet)/$(PlatformName)/$(Configuration)/$(PlatformTarget)/$(TargetName).pdb</ProgramDatabaseFile>
       <ProfileGuidedDatabase>$(IntDir)$(TargetName).pgd</ProfileGuidedDatabase>
     </Link>
   </ItemDefinitionGroup>
@@ -147,7 +147,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <SuppressStartupBanner>false</SuppressStartupBanner>
       <AdditionalDependencies>WS2_32.lib;iphlpapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <ProgramDatabaseFile>../symbols/$(PlatformToolSet)/$(PlatformName)/$(Configuration)/$(PlatformTarget)/$(TargetName).pdb</ProgramDatabaseFile>
+      <ProgramDatabaseFile>../../../symbols/$(PlatformToolSet)/$(PlatformName)/$(Configuration)/$(PlatformTarget)/$(TargetName).pdb</ProgramDatabaseFile>
       <ProfileGuidedDatabase>$(IntDir)$(TargetName).pgd</ProfileGuidedDatabase>
     </Link>
   </ItemDefinitionGroup>
@@ -171,7 +171,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <SuppressStartupBanner>false</SuppressStartupBanner>
       <AdditionalDependencies>WS2_32.lib;iphlpapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <ProgramDatabaseFile>../symbols/$(PlatformToolSet)/$(PlatformName)/$(Configuration)/$(PlatformTarget)/$(TargetName).pdb</ProgramDatabaseFile>
+      <ProgramDatabaseFile>../../../symbols/$(PlatformToolSet)/$(PlatformName)/$(Configuration)/$(PlatformTarget)/$(TargetName).pdb</ProgramDatabaseFile>
       <ProfileGuidedDatabase>$(IntDir)$(TargetName).pgd</ProfileGuidedDatabase>
     </Link>
   </ItemDefinitionGroup>

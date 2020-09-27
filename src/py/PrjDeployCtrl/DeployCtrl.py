@@ -26,9 +26,7 @@ class DeployCtrl:
             self.db_pub = redis.Redis(host=addr, port = int(port), db = 2, password='pd3@a^,.)992') # 发布管理集合
             self.publish = dict([(key.decode(), json.loads(self.db_pub.get(key))) for key in self.db_pub.keys("%s*"%(self.index))])
             self.db_log = redis.Redis(host=addr, port = int(port), db = 3, password='pd3@a^,.)992') # 发布日志集合
-            #self.log = dict([(key.decode(), self.db_log.get(key)) for key in self.db_log.keys("%s*"%(self.index))])
             self.db_cli = redis.Redis(host=addr, port = int(port), db = 4, password='pd3@a^,.)992') # 客户端版本信息
-            #self.cli = dict([(key.decode(), self.db_cli.get(key)) for key in self.db_cli.keys("%s*"%(self.index))])
         except Exception as e:
             Log(LOG_ERROR,"DeployCtrl", "InitDb Failed: %s"%e)
 
@@ -93,7 +91,7 @@ class DeployCtrl:
             pmKey = self.__prjModule2Key(value.get("project"), value.get("module"))
             (ver, hash, url, code) = self.__getNewestVer(pmKey)
             if ver is None:return
-            if ver != value.get("version") or hash != value.get("hash") or code != value.get("code") or url != value.get("url"):
+            if ver != value.get("version") or hash != value.get("hash"):
                 self.producer.Produce("deploy_d",json.dumps({"update":{"rid":value.get("rid"),"project":value.get("project"),"module":value.get("module"),"version":ver,"hash":hash,"url":url,"code":code,"force":1}}).encode("utf8"))
         except Exception as e:
             Log(LOG_ERROR, "DeployCtrl", "__dealUpdateCheck(%s) failed: %s"%(value, e))

@@ -90,26 +90,26 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>../bin/$(PlatformName)/$(Configuration)/</OutDir>
-    <IntDir>../obj/$(PlatformName)/$(Configuration)/$(ProjectName)/</IntDir>
+    <OutDir>../../../bin/$(PlatformName)/$(Configuration)/</OutDir>
+    <IntDir>../../../obj/$(PlatformName)/$(Configuration)/$(ProjectName)/</IntDir>
     <TargetName>librdkafkacppd</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>../bin/$(PlatformName)/$(Configuration)/</OutDir>
-    <IntDir>../obj/$(PlatformName)/$(Configuration)/$(ProjectName)/</IntDir>
+    <OutDir>../../../bin/$(PlatformName)/$(Configuration)/</OutDir>
+    <IntDir>../../../obj/$(PlatformName)/$(Configuration)/$(ProjectName)/</IntDir>
     <TargetName>librdkafkacppd</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>../bin/$(PlatformName)/$(Configuration)/</OutDir>
-    <IntDir>../obj/$(PlatformName)/$(Configuration)/$(ProjectName)/</IntDir>
+    <OutDir>../../../bin/$(PlatformName)/$(Configuration)/</OutDir>
+    <IntDir>../../../obj/$(PlatformName)/$(Configuration)/$(ProjectName)/</IntDir>
     <TargetName>librdkafkacpp</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>../bin/$(PlatformName)/$(Configuration)/</OutDir>
-    <IntDir>../obj/$(PlatformName)/$(Configuration)/$(ProjectName)/</IntDir>
+    <OutDir>../../../bin/$(PlatformName)/$(Configuration)/</OutDir>
+    <IntDir>../../../obj/$(PlatformName)/$(Configuration)/$(ProjectName)/</IntDir>
     <TargetName>librdkafkacpp</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -130,7 +130,7 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>librdkafkad.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>../obj/$(PlatformName)/$(Configuration)/librdkafka120/</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>../../../obj/$(PlatformName)/$(Configuration)/librdkafka120/</AdditionalLibraryDirectories>
       <SuppressStartupBanner>false</SuppressStartupBanner>
       <ProgramDatabaseFile>../symbols/$(PlatformToolSet)/$(PlatformName)/$(Configuration)/$(PlatformTarget)/$(TargetName).pdb</ProgramDatabaseFile>
       <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
@@ -154,7 +154,7 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>librdkafkad.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>../obj/$(PlatformName)/$(Configuration)/librdkafka120/</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>../../../obj/$(PlatformName)/$(Configuration)/librdkafka120/</AdditionalLibraryDirectories>
       <SuppressStartupBanner>false</SuppressStartupBanner>
       <ProgramDatabaseFile>../symbols/$(PlatformToolSet)/$(PlatformName)/$(Configuration)/$(PlatformTarget)/$(TargetName).pdb</ProgramDatabaseFile>
       <ProfileGuidedDatabase>$(IntDir)$(TargetName).pgd</ProfileGuidedDatabase>
@@ -181,7 +181,7 @@
       <AdditionalDependencies>librdkafka.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>../obj/$(PlatformName)/$(Configuration)/librdkafka120/</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>../../../obj/$(PlatformName)/$(Configuration)/librdkafka120/</AdditionalLibraryDirectories>
       <SuppressStartupBanner>false</SuppressStartupBanner>
       <ProgramDatabaseFile>../symbols/$(PlatformToolSet)/$(PlatformName)/$(Configuration)/$(PlatformTarget)/$(TargetName).pdb</ProgramDatabaseFile>
       <ProfileGuidedDatabase>$(IntDir)$(TargetName).pgd</ProfileGuidedDatabase>
@@ -208,7 +208,7 @@
       <AdditionalDependencies>librdkafka.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>../obj/$(PlatformName)/$(Configuration)/librdkafka120/</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>../../../obj/$(PlatformName)/$(Configuration)/librdkafka120/</AdditionalLibraryDirectories>
       <SuppressStartupBanner>false</SuppressStartupBanner>
       <ProgramDatabaseFile>../symbols/$(PlatformToolSet)/$(PlatformName)/$(Configuration)/$(PlatformTarget)/$(TargetName).pdb</ProgramDatabaseFile>
       <ProfileGuidedDatabase>$(IntDir)$(TargetName).pgd</ProfileGuidedDatabase>

@@ -19,7 +19,17 @@
 #include "../util/AoFileControl.h"
 #include "../util/ModuleDispatcher.h"
 int install(const char* pszExe, unsigned char ucIndex);
-int main(int argc, char* argv[]){return install(argv[0], (unsigned char)atoi(argv[1]));}
+int main(int argc, char* argv[]){
+    if(argc > 1)return install(argv[0], (unsigned char)atoi(argv[1]));
+    int nIndex = 0;
+    do {
+        std::cout << "请输入有效安装序列段[1,255]:\t" << std::endl;
+        std::cin >> nIndex;
+        if (nIndex < 1 || nIndex > 255) {continue;}
+        return install(argv[0], (unsigned char)nIndex);
+    } while (1);
+    return 0;
+}
 int install(const char* pszExe, unsigned char ucIndex){
     char szFile[1024] = { 0 };
 #ifdef WIN32

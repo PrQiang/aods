@@ -146,33 +146,33 @@
     <LinkIncremental>false</LinkIncremental>
     <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);C:\OpenSSL-Win32\include</IncludePath>
     <LibraryPath>$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);C:\OpenSSL-Win32\lib\VC</LibraryPath>
-    <OutDir>../bin/$(PlatformName)/$(Configuration)/</OutDir>
-    <IntDir>../obj/$(PlatformName)/$(Configuration)/$(ProjectName)/</IntDir>
+    <OutDir>../../../bin/$(PlatformName)/$(Configuration)/</OutDir>
+    <IntDir>../../../obj/$(PlatformName)/$(Configuration)/$(ProjectName)/</IntDir>
     <TargetName>librdkafkad</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>false</LinkIncremental>
     <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);C:\OpenSSL-Win64\include</IncludePath>
     <LibraryPath>$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);C:\OpenSSL-Win64\lib\VC</LibraryPath>
-    <OutDir>../bin/$(PlatformName)/$(Configuration)/</OutDir>
-    <IntDir>../obj/$(PlatformName)/$(Configuration)/$(ProjectName)/</IntDir>
+    <OutDir>../../../bin/$(PlatformName)/$(Configuration)/</OutDir>
+    <IntDir>../../../obj/$(PlatformName)/$(Configuration)/$(ProjectName)/</IntDir>
     <TargetName>librdkafkad</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
     <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);C:\OpenSSL-Win32\include</IncludePath>
     <LibraryPath>$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);C:\OpenSSL-Win32\lib\VC</LibraryPath>
-    <OutDir>../bin/$(PlatformName)/$(Configuration)/</OutDir>
-    <IntDir>../obj/$(PlatformName)/$(Configuration)/$(ProjectName)/</IntDir>
+    <OutDir>../../../bin/$(PlatformName)/$(Configuration)/</OutDir>
+    <IntDir>../../../obj/$(PlatformName)/$(Configuration)/$(ProjectName)/</IntDir>
     <TargetName>librdkafka</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
     <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);C:\OpenSSL-Win64\include</IncludePath>
     <LibraryPath>$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);C:\OpenSSL-Win64\lib\VC</LibraryPath>
-    <IntDir>../obj/$(PlatformName)/$(Configuration)/$(ProjectName)/</IntDir>
+    <IntDir>../../../obj/$(PlatformName)/$(Configuration)/$(ProjectName)/</IntDir>
     <TargetName>librdkafka</TargetName>
-    <OutDir>../bin/$(PlatformName)/$(Configuration)/</OutDir>
+    <OutDir>../../../bin/$(PlatformName)/$(Configuration)/</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

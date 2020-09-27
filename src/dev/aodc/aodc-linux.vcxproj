@@ -75,57 +75,57 @@
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
-    <OutDir>../bin/$(PlatformName)/$(Configuration)/</OutDir>
-    <IntDir>../obj/$(PlatformName)/$(Configuration)/$(ProjectName)/</IntDir>
+    <OutDir>../../../bin/$(PlatformName)/$(Configuration)/</OutDir>
+    <IntDir>../../../obj/$(PlatformName)/$(Configuration)/$(ProjectName)/</IntDir>
     <TargetName>aodc</TargetName>
     <TargetExt>
     </TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">
-    <OutDir>../bin/$(PlatformName)/$(Configuration)/</OutDir>
-    <IntDir>../obj/$(PlatformName)/$(Configuration)/$(ProjectName)/</IntDir>
+    <OutDir>../../../bin/$(PlatformName)/$(Configuration)/</OutDir>
+    <IntDir>../../../obj/$(PlatformName)/$(Configuration)/$(ProjectName)/</IntDir>
     <TargetName>aodc</TargetName>
     <TargetExt>
     </TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">
-    <OutDir>../bin/$(PlatformName)/$(Configuration)/</OutDir>
-    <IntDir>../obj/$(PlatformName)/$(Configuration)/$(ProjectName)/</IntDir>
+    <OutDir>../../../bin/$(PlatformName)/$(Configuration)/</OutDir>
+    <IntDir>../../../obj/$(PlatformName)/$(Configuration)/$(ProjectName)/</IntDir>
     <TargetName>aodc</TargetName>
     <TargetExt>
     </TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">
-    <OutDir>../bin/$(PlatformName)/$(Configuration)/</OutDir>
-    <IntDir>../obj/$(PlatformName)/$(Configuration)/$(ProjectName)/</IntDir>
+    <OutDir>../../../bin/$(PlatformName)/$(Configuration)/</OutDir>
+    <IntDir>../../../obj/$(PlatformName)/$(Configuration)/$(ProjectName)/</IntDir>
     <TargetName>aodc</TargetName>
     <TargetExt>
     </TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <OutDir>../bin/$(PlatformName)/$(Configuration)/</OutDir>
-    <IntDir>../obj/$(PlatformName)/$(Configuration)/$(ProjectName)/</IntDir>
+    <OutDir>../../../bin/$(PlatformName)/$(Configuration)/</OutDir>
+    <IntDir>../../../obj/$(PlatformName)/$(Configuration)/$(ProjectName)/</IntDir>
     <TargetName>aodc</TargetName>
     <TargetExt>
     </TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <OutDir>../bin/$(PlatformName)/$(Configuration)/</OutDir>
-    <IntDir>../obj/$(PlatformName)/$(Configuration)/$(ProjectName)/</IntDir>
+    <OutDir>../../../bin/$(PlatformName)/$(Configuration)/</OutDir>
+    <IntDir>../../../obj/$(PlatformName)/$(Configuration)/$(ProjectName)/</IntDir>
     <TargetName>aodc</TargetName>
     <TargetExt>
     </TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">
-    <OutDir>../bin/$(PlatformName)/$(Configuration)/</OutDir>
-    <IntDir>../obj/$(PlatformName)/$(Configuration)/$(ProjectName)/</IntDir>
+    <OutDir>../../../bin/$(PlatformName)/$(Configuration)/</OutDir>
+    <IntDir>../../../obj/$(PlatformName)/$(Configuration)/$(ProjectName)/</IntDir>
     <TargetName>aodc</TargetName>
     <TargetExt>
     </TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86'">
-    <OutDir>../bin/$(PlatformName)/$(Configuration)/</OutDir>
-    <IntDir>../obj/$(PlatformName)/$(Configuration)/$(ProjectName)/</IntDir>
+    <OutDir>../../../bin/$(PlatformName)/$(Configuration)/</OutDir>
+    <IntDir>../../../obj/$(PlatformName)/$(Configuration)/$(ProjectName)/</IntDir>
     <TargetName>aodc</TargetName>
     <TargetExt>
     </TargetExt>

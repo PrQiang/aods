@@ -23,7 +23,7 @@ int CAoUnzip::GetCurrentFileInfo(char* pszFileName, int nFileNameLen, bool& bIsD
 }
 int CAoUnzip::UnzipCurentFile(CAoStream* pAS, const char* pszPwd) {
     if (NULL == m_pzf)return 1;
-    int nRet = ('\0' != *pszPwd) ? unzOpenCurrentFile(m_pzf) : unzOpenCurrentFilePassword(m_pzf, pszPwd);
+    int nRet = ('\0' == *pszPwd) ? unzOpenCurrentFile(m_pzf) : unzOpenCurrentFilePassword(m_pzf, pszPwd);
     if (UNZ_OK != nRet) { return nRet; }
     char* pszBuf = (char*)malloc(10240);
     while(0 <(nRet = unzReadCurrentFile(m_pzf, pszBuf, 10240))) {pAS->Write(pszBuf, nRet);}
