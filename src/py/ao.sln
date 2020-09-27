@@ -1,0 +1,27 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30503.244
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "PrjDeployCtrl", "PrjDeployCtrl\PrjDeployCtrl.pyproj", "{520B40C2-E963-4DE9-A119-E5106A41A433}"
+EndProject
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "PrjPublish", "PrjPublish\PrjPublish.pyproj", "{38C25970-CA5F-4CFD-AD55-411CB964CF38}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{520B40C2-E963-4DE9-A119-E5106A41A433}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{520B40C2-E963-4DE9-A119-E5106A41A433}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{38C25970-CA5F-4CFD-AD55-411CB964CF38}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{38C25970-CA5F-4CFD-AD55-411CB964CF38}.Release|Any CPU.ActiveCfg = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B183D3BD-21F0-4733-BE09-976184128AF0}
+	EndGlobalSection
+EndGlobal

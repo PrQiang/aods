@@ -1,0 +1,18 @@
+{
+	"3":{
+	"TcpServer": {
+			"Type": "TcpServer",
+			"Protocol": "AoCommuProtocol",
+			"Para": [{
+				"Name": "AodsServer",
+				"Address": "0.0.0.0:2072"
+			}]
+		}
+	},
+	"259":{
+		"brokers":"192.168.66.124:9092",
+		"producer_topic":"u_deploy",
+		"consumer_topic":"d_deploy",
+		"consumer_gid":"aodc-1"
+	}
+}

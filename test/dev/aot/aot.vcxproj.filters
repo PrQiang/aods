@@ -1,0 +1,119 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="pch.cpp" />
+    <ClCompile Include="..\..\..\src\dev\util\AoEvent.cpp">
+      <Filter>util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\dev\util\AoLock.cpp">
+      <Filter>util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\dev\util\AoThread.cpp">
+      <Filter>util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\dev\util\Module.cpp">
+      <Filter>util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\dev\util\ModuleData.cpp">
+      <Filter>util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\dev\util\MsgTarget.cpp">
+      <Filter>util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\dev\util\ModuleDispatcher.cpp">
+      <Filter>util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\dev\util\AoEncrypt.cpp">
+      <Filter>util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\dev\util\AoFile.cpp">
+      <Filter>util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\dev\util\AoFileControl.cpp">
+      <Filter>util</Filter>
+    </ClCompile>
+    <ClCompile Include="install\AodsActiveModuleTest.cpp">
+      <Filter>install</Filter>
+    </ClCompile>
+    <ClCompile Include="install\AodsActiveModuleTestSuc.cpp">
+      <Filter>install</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\dev\util\AoProcess.cpp">
+      <Filter>util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\dev\util\AoStream.cpp">
+      <Filter>util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\dev\util\AoHash.cpp">
+      <Filter>util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\dev\util\AoTime.cpp">
+      <Filter>util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\dev\install\AodsActiveModule.cpp">
+      <Filter>install</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\dev\util\AoService.cpp">
+      <Filter>util</Filter>
+    </ClCompile>
+    <ClCompile Include="install\AodsActiveModuleTestFai.cpp">
+      <Filter>install</Filter>
+    </ClCompile>
+    <ClCompile Include="stub\AoOsStub.cpp">
+      <Filter>stub</Filter>
+    </ClCompile>
+    <ClCompile Include="aods\AodsAuthModuleTest.cpp">
+      <Filter>aods</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\dev\aods\AodsAuthModule.cpp">
+      <Filter>aods</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\dev\util\CJson.cpp">
+      <Filter>util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\dev\aods\UpdateModuleMgr.cpp">
+      <Filter>aods</Filter>
+    </ClCompile>
+    <ClCompile Include="stub\DownloadThreadStub.cpp">
+      <Filter>stub</Filter>
+    </ClCompile>
+    <ClCompile Include="aods\UpdateModuleMgrTest.cpp">
+      <Filter>aods</Filter>
+    </ClCompile>
+    <ClCompile Include="stub\AoUnzipStub.cpp">
+      <Filter>stub</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="pch.h" />
+    <ClInclude Include="install\AodsActiveModuleTestSuc.h">
+      <Filter>install</Filter>
+    </ClInclude>
+    <ClInclude Include="install\AodsActiveModuleTestFai.h">
+      <Filter>install</Filter>
+    </ClInclude>
+    <ClInclude Include="aods\AodsAuthModuleTest.h">
+      <Filter>aods</Filter>
+    </ClInclude>
+    <ClInclude Include="aods\UpdateModuleMgrTest.h">
+      <Filter>aods</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="util">
+      <UniqueIdentifier>{db194bf3-c636-470a-9cb5-77dcf0dfb87a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="install">
+      <UniqueIdentifier>{ed0390c6-cf94-4349-862b-ed0132dbab3a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="stub">
+      <UniqueIdentifier>{e1dc9531-a52a-4f69-aef2-9b751d777f0c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="aods">
+      <UniqueIdentifier>{ab7e7388-7ba9-4929-adcc-5e3d64c5057e}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+</Project>
