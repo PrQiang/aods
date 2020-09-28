@@ -6,6 +6,16 @@ aods是一款可以帮助运维实现软件自动化部署的轻量级软件系�
 
 笔者开源的目的集和大家的智慧一起改进系统，如果企业运维需要，也欢迎使用。
 
-## 
+## 项目构成
+本项目由客户端aods(windows为aods.exe, linux为aods), 服务端aodc(windows为aodc.exe, linux为aodc),以及python脚本控制端DeployCtrl，Python打包发布工具Publish，如下图:
+
+```flow
+st=>start: aods/aods.exe
+op1=>operation: aodc/aodc.exe
+op2=>operation: kafka
+op3=>operation: DeployCtrl
+st(right)->op1(right)->op2(right)->op3
+```
+
 
 ## 建设中。。。
