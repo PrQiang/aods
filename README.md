@@ -25,7 +25,7 @@ aods是一款可以帮助运维实现软件自动化部署的简单且轻量级�
   - 配置文件: 
     + [./config/installcfg.json](config/installcfg.json "安装程序配置文件")
     + [./config/aodscfg.json](config/aodscfg.json "部署服务客户端配置文件")
-    + [./data/aodsumi.json](data/aodsumi.db "部署服务管理项目数据文件")
+    + [./data/aodsumi.db](data/aodsumi.db "部署服务管理项目数据文件")
 
 ## 应用举例:
 * aods系统客、服务端自更新
