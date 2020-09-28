@@ -2,7 +2,7 @@
 	"aods": {
 		"aods-x64-linux": {
 			"WorkDir": "./",
-			"Command": "sc stop aods & sc start aods"
+			"Command": "service aods restart"
 		}
 	}
 }
