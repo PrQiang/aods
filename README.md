@@ -1,7 +1,7 @@
 ![license](https://img.shields.io/badge/license-MIT-brightgreen.svg)
 # aods 自动化运维部署系统
 ## 简介：
-aods是一款可以帮助运维实现软件自动化部署的简单且轻量级软件系统, 配合脚本和发布策略可以实现服务器自动化、批量化运维. 目前支持windows(服务器: windows server 2003 sp2及高版本, 个人版: windows 7以及高版本), centos, ubuntu.
+aods是一款可以帮助运维实现软件自动化部署的简单且轻量级软件系统, 配合脚本和发布策略可以实现服务器自动化、批量化运维. 目前支持windows(服务器: windows server 2003 sp2及高版本, 客户端: windows 7以及高版本), centos, ubuntu.
 
 根据笔者所在企业使用情况，600+服务器是没有任何压力的，不过根据aods架构设计理论上应可以轻松支持万级别服务器的自动化部署，尚未测试验证过。
 
