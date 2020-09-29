@@ -8,3 +8,4 @@ src/dev/.vs/aods/v16/Browse.VC.db
 *.user
 *.suo
 /src/py/.vs/ao/v16
+*.pyc

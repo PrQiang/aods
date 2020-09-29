@@ -90,8 +90,8 @@ if __name__== '__main__':
         "pubTopic":"publish",
         "sftpAddr":[("192.168.66.124", 22, 'root', 'password')],
         "prjs":[
-            # 项目名,模块名,发布版本号,待发布文件目录，待发布文件名称前缀, 发布类型beta, alpha, stable, ...将会映射为段ID，如beta映射为1
-            ("aom", "aom-win", "0.0.0.0001", ".\\aods-x64-linux\\", ".\\aods-x64-linux", "beta")
+            # 项目名,模块名,发布版本号,待发布文件目录，待发布文件名称前缀, 发布类型beta, alpha, stable, ...
+            ("aom", "aom-win", "0.0.0.0001", "D:\\test\\publish\\aods-x64-linux\\", "D:\\test\\publish\\aods-x64-linux", "beta")
             ]
     }
     p = Publish(cfg["brokers"], cfg["sftpAddr"], cfg["pubTopic"], cfg["pubUrl"])
