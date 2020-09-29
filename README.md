@@ -8,6 +8,7 @@ aods是一款可以帮助运维实现软件自动化部署的简单且轻量级�
 笔者开源的目的集和大家的智慧一起学习进步，如果企业运维需要，也欢迎使用。交流方式: 邮箱: 2114647743@qq.com, qq:2114647743。
 
 ## 安装使用：
+    系统通过安装在各个服务器上的客户端aods服务接收服务端的更新控制指令来实现其管理的模块的部署更新。
 ### 服务端  
 * redis安装: 请参阅<https://redis.io/download>
    
@@ -32,14 +33,14 @@ aods是一款可以帮助运维实现软件自动化部署的简单且轻量级�
 * Publish: 采用python3编写，在需要发布的时候执行下即可
 
 ### 客户端
-* aods: install -i 段号 将会在本地安装为aods服务运行
+* aods安装: install -i 段号 将会在本地安装为aods服务运行
 
   - 段号用来规划部署环境定义，比如笔者这里定义1为测试环境, 2为预发布环境，3-255为正式环境或运营环境
   - 配置文件: 
     + [./config/installcfg.json](config/installcfg.json "安装程序配置文件")
     + [./config/aodscfg.json](config/aodscfg.json "部署服务客户端配置文件")
     + [./data/aodsumi.db](data/aodsumi.db "部署服务管理项目数据文件")
-
+    
 ## 应用举例:
 * aods系统客、服务端自更新
 
