@@ -1,10 +1,10 @@
 # example
 
 ## 架构模型: 
-![pic/framework.png](pic/framework.png)
+![pic/framework.png](../pic/framework.png)
 
 ## 部署模型：
-![pic/model.png](pic/model.png)
+![pic/model.png](../pic/model.png)
 
 
 ## 扩展性: 
