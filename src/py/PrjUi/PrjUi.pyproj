@@ -39,13 +39,7 @@
     <Compile Include="MiWidget.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="NavigationWidget.py">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="PrjUi.py" />
-    <Compile Include="rdpWidget.py">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="RestfulApiClient.py">
       <SubType>Code</SubType>
     </Compile>

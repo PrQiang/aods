@@ -1,4 +1,5 @@
-import threading, redis, json, random, datetime
+import threading, redis, json, random, datetime, struct
+from cryptography.fernet import Fernet
 from Logger import *
 
 class DbEngine(object):
@@ -9,9 +10,9 @@ class DbEngine(object):
         self.db_mgr = redis.Redis(host=addr, port = port, db = 1, password=pwd) # server manager
         self.db_pub = redis.Redis(host=addr, port = int(port), db = 2, password=pwd) # publish collection
         self.db_log = redis.Redis(host=addr, port = int(port), db = 3, password=pwd) # publish log
-        self.db_cli = redis.Redis(host=addr, port = port, db = 5, password=pwd) # user info
+        self.db_ui = redis.Redis(host=addr, port = port, db = 5, password=pwd) # user info
         self.db_cookie = redis.Redis(host=addr, port = port, db = 6, password=pwd) # user cookie
-        self.db_usi = redis.Redis(host=addr, port = port, db = 7, password=pwd) # user mange server info
+        self.db_umi = redis.Redis(host=addr, port = port, db = 7, password=pwd) # user mange server info
         self.ttl = 3600
 
 
@@ -26,7 +27,7 @@ class DbEngine(object):
 
     def queryUserInfo(self, usr):
         try:
-            return self.db_cli.get(usr)
+            return self.db_ui.get(usr)
         except Exception as e:
             Log(LOG_ERROR, "DbEngine", "failed to query login info for: %s"%e)
             return None
@@ -89,7 +90,7 @@ class DbEngine(object):
                 rid = key.decode().split('#')[0]
                 rlt, dt = self.db_log.get(key).decode().split('#')
                 si = self.db_mgr.get(rid)
-                if si == b'null': continue
+                if si == b'null' or not si: continue
                 si = json.loads(si.decode())
                 result.append((rid, si.get("flag", si.get("ip", rid)), rlt, dt))
             return [pubResult, result]
@@ -105,10 +106,10 @@ class DbEngine(object):
                 info = self.db_mgr.get(rid).decode()
                 if info == 'null': continue
                 srvs[rid.decode()] = json.loads(self.db_mgr.get(rid).decode())
-            for key in self.db_usi.keys("%s#*"%(usr)):
+            for key in self.db_umi.keys("%s#*"%(usr)):
                 rid = key.decode().split('#')[-1]
                 if rid not in srvs: continue
-                srvs[rid].update(json.loads(self.db_usi.get(key).decode()))
+                srvs[rid].update(json.loads(self.__decryptUsiInfo(self.db_umi.get(key)).decode()))
             return srvs            
         except Exception as e:
             Log(LOG_ERROR, "DbEngine", "failed to query all server info for: %s"%(e))
@@ -124,8 +125,9 @@ class DbEngine(object):
                 else: srvs[rids[i]] = json.loads(info.decode())
                 i += 1
             i = 0
-            for info in (self.db_usi.mget(['%s#%s'%(usr, rid) for rid in rids])):
-                if info: srvs[rids[i]].update(json.loads(info.decode()))
+            for info in (self.db_umi.mget(['%s#%s'%(usr, rid) for rid in rids])):
+                if info:
+                    srvs[rids[i]].update(json.loads(self.__decryptUsiInfo(info).decode()))
                 i += 1
             return srvs # ignor the order
         except Exception as e:
@@ -142,24 +144,55 @@ class DbEngine(object):
             newSi = json.loads(newSi.decode())
             newSi.update({"flag":si["flag"], "location":si.get("location",""), "ma":si.get("ma", "")})
             self.db_mgr.set(rid, json.dumps(newSi))
-            info = self.db_usi.get("%s#%s"%(usr, rid))
+            info = self.db_umi.get("%s#%s"%(usr, rid))
             if info == b'null' or not info: info = {}
-            else:info = json.loads(info.decode())
+            else:info = json.loads(self.__decryptUsiInfo(info).decode())
             info.update({"usr":si.get("usr", ""), "pwd":si.get("pwd", "")})
-            self.db_usi.set("%s#%s"%(usr, rid) , json.dumps(info))
+            self.db_umi.set("%s#%s"%(usr, rid) , self.__encryptUsiInfo(json.dumps(info).encode()))
             return 'success'
         except Exception as e:
             Log(LOG_ERROR, "DbEngine", "failed to update server(%s) info for: %s"%(rid, e))
-            return 'failed for %s'%e        
+            return 'failed for %s'%e
+
+
+    def deleteServers(self, rids):
+        try:
+            for rid in rids: # delete from server manager
+                self.db_mgr.delete(rid)
+            # self.db_log.delete(rids) # consider to delete rid log collection
+            
+        except Exception as e:
+            Log(LOG_ERROR, "DbEngine", "failed to delete servers(%s) for: %s"%(','.join(rids), e))
+            return 'failed for %s'%e
+
+
+    def __encryptUsiInfo(self, buf):
+        try:
+            enKey = Fernet.generate_key()
+            enBuf = Fernet(enKey).encrypt(buf)
+            return struct.pack("<I",len(enKey)) + enKey + enBuf
+        except Exception as e:
+            Log(LOG_ERROR, "DbEngine", "encrypt the buf(%s) failed for %s"%(buf, e))
+            return b''
+
+
+    def __decryptUsiInfo(self, buf):
+        try:
+            (l, ) = struct.unpack("<I", buf[:4])
+            if len(buf) < l + 4:return b'{}'
+            return Fernet(buf[4:4+l]).decrypt(buf[4+l:])
+        except Exception as e:
+            Log(LOG_ERROR, "DbEngine", "decrypt the buf(%s) failed for %s"%(buf, e))
+            return b'{}'
 
 
 def constructUser( usr, pwd):
     import hashlib
     sha = hashlib.sha256()
     sha.update(pwd.encode())
-    db_cli = redis.Redis(host="192.168.66.118", port = int(65379), db = 5, password='pd3@a^,.)992') # user info
-    db_cli.set(usr, json.dumps({"pwd":sha.hexdigest(), "isAdmin":1}))
-    print(db_cli.get(usr)) 
+    db_ui = redis.Redis(host="192.168.66.118", port = int(65379), db = 5, password='pd3@a^,.)992') # user info
+    db_ui.set(usr, json.dumps({"pwd":sha.hexdigest(), "isAdmin":1}))
+    print(db_ui.get(usr)) 
 
 
 def constructPublish():
@@ -191,7 +224,7 @@ def constructPublishLog():
     for module in ["aods-test-win-x64", "aods-test-win-x86", "aods-test-linux-x64", "test-linux-x64", "test-win-x64", "test-win-x86"]:
         for gid in ('01', '02', '03'):
             for i in range(100):
-                rlt = ['更新成功', '下载失败', "保存失败", "校验失败", "解压失败", "执行失败", "未知错误"][random.Random().randint(0, 6)]                
+                rlt = ['更新成功', '下载失败', "保存失败", "校验失败", "解压失败", "执行失败", "未知错误"][random.Random().randint(0, 6)]
                 db_log.set("%s#%s#%s#%s"%('%sabcdef00%02x'%(gid, i), "aods-test", module, "0001.0001.0120"), "%s#%s"%(rlt, datetime.datetime.now()))
 
 
@@ -200,10 +233,10 @@ def clearRubbishData():
     db_mgr = redis.Redis(host=addr, port = int(port), db = 1, password=pwd)    
     for key in db_mgr.keys("*"):
         if db_mgr.get(key) == b'null':db_mgr.delete(key)
-    db_usi = redis.Redis(host=addr, port = port, db = 7, password=pwd)
-    for key in db_usi.keys("*"):
-        data = db_usi.get(key)
-        if not data or data==b'null':db_usi.delete(key)
+    db_umi = redis.Redis(host=addr, port = port, db = 7, password=pwd)
+    for key in db_umi.keys("*"):
+        data = db_umi.get(key)
+        if not data or data==b'null':db_umi.delete(key)
 
 
 

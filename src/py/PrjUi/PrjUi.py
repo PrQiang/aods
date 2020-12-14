@@ -16,6 +16,8 @@ if __name__ == "__main__":
         widget.showMaximized()
         widget.addTab(PmWidget(), "Deploy Management")
         widget.addTab(SmWidget(True), "Server Management")
+        with open("./qss/TabWidget.qss", "rb") as f:
+            widget.setStyleSheet(f.read().decode())
     except Exception as e:
         print(e)
     sys.exit(app.exec_())

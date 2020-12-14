@@ -18,7 +18,6 @@ class RestfulApiHandler(socketserver.BaseRequestHandler):
             deData = Fernet(enKey).decrypt(data)
             if hash != zlib.crc32(deData, 0x31):return None
             jData = json.loads(deData.decode())
-            print(jData)
             for k, v in jData.items():
                 if k == 'login':
                     self.__login(v)
@@ -32,6 +31,8 @@ class RestfulApiHandler(socketserver.BaseRequestHandler):
                     self.__onQueryServer(v)
                 elif k == "update_server":
                     self.__onUpdateServer(v)
+                elif k == "delete_servers":
+                    self.__onDeleteServers(v)
         except Exception as e:
             Log(LOG_ERROR, "RestfulApiHandler", "handle failed: %s"%(e))
 
@@ -152,9 +153,24 @@ class RestfulApiHandler(socketserver.BaseRequestHandler):
             Log(LOG_ERROR, "RestfulApiHandler", "query update detail info(%s) error for %s"%(v, e))
 
 
+    def __onDeleteServers(self, v):
+        try:
+            cookie = v.get("cookie")
+            if not cookie:
+                self.__rsp({"delete_servers_result":{"result":"failed for unathen"}})
+                return
+            usr = DbEngine.Instance().queryCookieUser(cookie)
+            if not usr:
+                self.__rsp({"delete_servers_result":{"result":"failed", "detail":"Please authen first"}})
+                return
+            # todo check permission
+            self.__rsp({ "delete_servers_result":{"result":"success", "detail":DbEngine.Instance().deleteServers(v["rids"])}})
+        except Exception as e:
+            Log(LOG_ERROR, "RestfulApiHandler", "query update detail info(%s) error for %s"%(v, e))
+
+
     def __rsp(self, data):
         try:
-            print("rsp: %s"%(data))
             buf = json.dumps(data).encode()            
             hash = zlib.crc32(buf, 0x50)
             enKey = Fernet.generate_key()

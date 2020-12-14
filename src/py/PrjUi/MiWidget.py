@@ -60,7 +60,7 @@ class ArrowLineItem(QtWidgets.QGraphicsItem):
                     return [QtCore.QPoint(pt1.x() + w1 / 2, pt2.y()), QtCore.QPoint(pt2.x() - w2 / 2, pt2.y())]
                 else: # first rect is at the right
                     return [QtCore.QPoint(pt1.x() - w1 / 2, pt2.y()), QtCore.QPoint(pt2.x() + w2 / 2, pt2.y())]
-            else: # make sure pt1.x() == pt2.x()                
+            else: # make sure pt1.x() == pt2.x()
                 return [QtCore.QPoint(pt1.x(), pt1.y() + h1 / 2), QtCore.QPoint(pt2.x(), pt2.y() - h2 / 2)]
         except Exception as e:
             traceback.print_exc()

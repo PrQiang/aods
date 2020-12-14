@@ -49,6 +49,10 @@ class RestfulApiClient(object):
         return self.sendAndWaitRsp({"update_server":{"cookie":DataModel.Instance().GetCookie(),"si":si}})
 
 
+    def DeleteServers(self, rids):
+        return self.sendAndWaitRsp({"delete_servers":{"cookie":DataModel.Instance().GetCookie(),"rids":rids}})
+
+
     def sendAndWaitRsp(self, data):
         try:
             buf = json.dumps(data).encode()

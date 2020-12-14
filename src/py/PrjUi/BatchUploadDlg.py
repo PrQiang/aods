@@ -16,7 +16,7 @@ class ShellTableWidget(QtWidgets.QTableWidget):
         if row + 1 > self.rowCount():
             self.insertRow(row)
         item = QtWidgets.QTableWidgetItem(text)
-        item.setBackground(self.backColor)
+        #item.setBackground(self.backColor)
         item.setToolTip(text)
         self.setItem(row, col, item)
         self.items.append(text)
@@ -33,23 +33,22 @@ class BatchUploadDlg(QtWidgets.QDialog):
         super().__init__(parent)
         self.initUI(batchItems)
 
-    def initUI(self, batchItems):        
+
+    def initUI(self, batchItems):
         self.setModal(True)
         self.signalResult.connect(self.doResult)
         # design first operator
-        label = QtWidgets.QLabel("upload files from")
         self.uploadFiles = QtWidgets.QTextEdit()
+        self.uploadFiles.setPlaceholderText("Please select the local files to upload")
         self.btnSrc = QtWidgets.QPushButton("...")
         self.btnSrc.clicked.connect(self.selectUploadFiles)
-        label2 = QtWidgets.QLabel("upload to dir")
         self.editDst = QtWidgets.QTextEdit()
+        self.editDst.setPlaceholderText("Please input the destination of uploads")
         self.btnUpload = QtWidgets.QPushButton("upload")
         self.btnUpload.clicked.connect(self.upload)
         hLay = QtWidgets.QHBoxLayout()
-        hLay.addWidget(label)
         hLay.addWidget(self.uploadFiles)
         hLay.addWidget(self.btnSrc)
-        hLay.addWidget(label2)
         hLay.addWidget(self.editDst)
         hLay.addWidget(self.btnUpload)
         w = QtWidgets.QWidget()
@@ -58,7 +57,7 @@ class BatchUploadDlg(QtWidgets.QDialog):
 
         # show
         self.tabWidget = QtWidgets.QTabWidget()
-        self.widgetDoing = ShellTableWidget(QtGui.QColor(220,220,220), QtWidgets.QHeaderView.Stretch)
+        self.widgetDoing = ShellTableWidget(QtGui.QColor(220,220,220),QtWidgets.QHeaderView.Stretch)
         self.tabWidget.addTab(self.widgetDoing, "todo")
         self.widgetSuc = ShellTableWidget(QtGui.QColor(144,238,144))
         self.tabWidget.addTab(self.widgetSuc, "sucess")
@@ -72,6 +71,8 @@ class BatchUploadDlg(QtWidgets.QDialog):
         for shell in self.labelShells:self.widgetDoing.appendItem(shell.Name())    
         self.setModal(True)
         self.showMaximized()
+        with open("./qss/TabWidget.qss", "rb") as f:
+            self.setStyleSheet(f.read().decode())
 
 
     def selectUploadFiles(self):
@@ -88,13 +89,13 @@ class BatchUploadDlg(QtWidgets.QDialog):
             if isSuc: self.widgetSuc.appendItem(result)
             else: self.widgetFai.appendItem(result)
         except Exception as e:
-            traceback.print_exc()              
+            traceback.print_exc()
 
 
     def upload(self):
         files = self.uploadFiles.toPlainText().split("\n")
         if len(files) < 1:
-            QtWidgets.QMessageBox("Please select upload file at first!")
+            QtWidgets.QMessageBox(None, "Tooltip", "Please select upload file at first!").exec_()
             return
         uploadDir = self.editDst.toPlainText()
         self.widgetSuc.clear()

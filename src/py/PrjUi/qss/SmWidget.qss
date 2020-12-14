@@ -1,21 +1,19 @@
-QPlainTextEdit{
-background:rgb(100, 100, 100);
-font-size:18px;
-color:white;
+QWidget{
+    background:qlineargradient(spread:pad,x1:0,y1:0,x2:0,y2:1,stop:0 #DCDCDC,stop:1 #383838);
 }
-
+/*refer from https://blog.csdn.net/parkchorong/article/details/102661052*/
 QTableWidget{
-color:#009688;
-font-size:18px;
-background:rgb(100, 100, 100)
-border:1px solid rgb(58, 58, 58);
-alternate-background-color:#525252;
+color:#DCDCDC;
+background:#444444;
+border:1px solid #242424;
+alternate-background-color:#525252;/*交错颜色*/
 gridline-color:#242424;
 }
 QTableWidget::item:selected{
-color:#009688;
-background:qlineargradient(spread:pad,x1:0,y1:0,x2:0,y2:1,stop:0 #484848,stop:1 #383838);
+color:#DCDCDC;
+background:qlineargradient(spread:pad,x1:0,y1:0,x2:0,y2:1,stop:0 #DCDCDC,stop:1 #383838);
 }
+
 QTableWidget::item:hover{
 background:#5B5B5B;
 }
@@ -24,7 +22,7 @@ text-align:center;
 background:#5E5E5E;
 padding:3px;
 margin:0px;
-color:#009688;
+color:#DCDCDC;
 border:1px solid #242424;
 border-left-width:0;
 }
@@ -52,12 +50,7 @@ background:none;
 QScrollBar::sub-line:vertical{
 background:none;
 }
-QMenu {
-    background-color: #F00000;
-    border-width: 10px 20px 30px 40px;
-    border-style: solid;
-    border-color: #00000F;
-}
+/*end refer*/
 
 QPushButton{
     width:180px;

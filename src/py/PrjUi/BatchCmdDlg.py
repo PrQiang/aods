@@ -16,7 +16,7 @@ class ShellTableWidget(QtWidgets.QTableWidget):
         if row + 1 > self.rowCount():
             self.insertRow(row)
         item = QtWidgets.QTableWidgetItem(text)
-        item.setBackground(self.backColor)
+        #item.setBackground(self.backColor)
         item.setToolTip(text)
         self.setItem(row, col, item)
         self.items.append(text)
@@ -39,13 +39,13 @@ class BatchCmdDlg(QtWidgets.QDialog):
     def initUi(self, batchItems):
         self.signalResult.connect(self.doResult)
         self.editCmd = QtWidgets.QTextEdit()
+        self.editCmd.setPlaceholderText("Please input commands here")
         btn = QtWidgets.QPushButton("run")
         hLay = QtWidgets.QHBoxLayout()
         hLay.addSpacerItem(QtWidgets.QSpacerItem(100, 20))
-        hLay.addWidget(QtWidgets.QLabel("cmd"))
         hLay.addWidget(self.editCmd)
-        hLay.addWidget(QtWidgets.QLabel("success condtion"))
         self.editSc = QtWidgets.QTextEdit()
+        self.editSc.setPlaceholderText("Please input success condition after doing commands")
         hLay.addWidget(self.editSc)
         hLay.addWidget(btn)
         btn.clicked.connect(self.onRunClicked)
@@ -53,7 +53,7 @@ class BatchCmdDlg(QtWidgets.QDialog):
         lineWidget.setLayout(hLay)
         lineWidget.setMaximumHeight(60)
         self.tabWidget = QtWidgets.QTabWidget()
-        self.widgetDoing = ShellTableWidget(QtGui.QColor(220,220,220), QtWidgets.QHeaderView.Stretch)
+        self.widgetDoing = ShellTableWidget(QtGui.QColor(220,220,220),QtWidgets.QHeaderView.Stretch)
         self.tabWidget.addTab(self.widgetDoing, "todo")
         self.widgetSuc = ShellTableWidget(QtGui.QColor(144,238,144))
         self.tabWidget.addTab(self.widgetSuc, "matched")
@@ -67,6 +67,8 @@ class BatchCmdDlg(QtWidgets.QDialog):
         for shell in self.labelShells:self.widgetDoing.appendItem(shell.Name())
         self.setModal(True)
         self.showMaximized()
+        with open("./qss/TabWidget.qss", "rb") as f:
+            self.setStyleSheet(f.read().decode())
 
 
     def doResult(self, isSuc, result):

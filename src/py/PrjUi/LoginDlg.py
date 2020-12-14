@@ -9,8 +9,6 @@ class LoginDlg(QtWidgets.QDialog):
         super().__init__()
         self.failedTimes = 0
         self.__initUi()
-        self.editUsr.setText("raoqiang")
-        self.editPassword.setText("Google.com22")
         self.onClieckLogin()
 
 
@@ -41,7 +39,7 @@ class LoginDlg(QtWidgets.QDialog):
             self.editPassword = QtWidgets.QLineEdit()
             self.editPassword.setEchoMode(QtWidgets.QLineEdit.Password)
             self.editPassword.setPlaceholderText("password")
-            
+            self.editPassword.returnPressed.connect(self.onClieckLogin)
             gLayout.addWidget(self.editPassword, 1,1, QtCore.Qt.AlignCenter)
 
             self.labelToolTip = QtWidgets.QLabel()
