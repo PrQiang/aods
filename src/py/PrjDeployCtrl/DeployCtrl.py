@@ -20,13 +20,13 @@ class DeployCtrl:
 
     def InitDb(self):
         try:
-            (addr, port) = self.ra.split(":")
-            self.db_mgr = redis.Redis(host=addr, port = int(port), db = 1, password='pd3@a^,.)992') # 服务器管理集合
+            (addr, port), pwd = self.ra.split(":"), 'pd3@a^,.)992'
+            self.db_mgr = redis.Redis(host=addr, port = int(port), db = 1, password=pwd) # 服务器管理集合
             self.srvs = dict([(key.decode(), json.loads(self.db_mgr.get(key))) for key in self.db_mgr.keys("%s*"%(self.index))])
-            self.db_pub = redis.Redis(host=addr, port = int(port), db = 2, password='pd3@a^,.)992') # 发布管理集合
+            self.db_pub = redis.Redis(host=addr, port = int(port), db = 2, password=pwd) # 发布管理集合
             self.publish = dict([(key.decode(), json.loads(self.db_pub.get(key))) for key in self.db_pub.keys("%s*"%(self.index))])
-            self.db_log = redis.Redis(host=addr, port = int(port), db = 3, password='pd3@a^,.)992') # 发布日志集合
-            self.db_cli = redis.Redis(host=addr, port = int(port), db = 4, password='pd3@a^,.)992') # 客户端版本信息
+            self.db_log = redis.Redis(host=addr, port = int(port), db = 3, password=pwd) # 发布日志集合
+            self.db_cli = redis.Redis(host=addr, port = int(port), db = 4, password=pwd) # 客户端版本信息
         except Exception as e:
             Log(LOG_ERROR,"DeployCtrl", "InitDb Failed: %s"%e)
 
@@ -50,7 +50,8 @@ class DeployCtrl:
         try:            
             if self.index != bytes([value.get("index", 0)]).hex(): return
             rid = self.__generalRid() # 生成唯一标识,并保存至内存中
-            self.srvs[rid] = {}
+            ips = ",".join(value.get("ip", []))
+            self.srvs[rid] = {"ip":ips, "flag":ips}
             self.producer.Produce("deploy_d", json.dumps({"active_ack":{"uuid":value.get("uuid",""), "rid":rid, "ack":0}}).encode("utf8"))
         except Exception as e:
             Log(LOG_ERROR, "DeployCtrl", "__dealActive(%s) failed: %s"%(value, e))
@@ -67,8 +68,8 @@ class DeployCtrl:
         try:
             rid, active_code = value.get("rid"), value.get("active_code")
             if rid is None or active_code is None or rid not in self.srvs: return
-            value = self.srvs[rid] = {"active_code" : active_code, "deploy" : {}}
-            self.db_mgr.set(rid, json.dumps(value))
+            self.srvs[rid].update({"active_code" : active_code, "deploy" : {}})
+            self.db_mgr.set(rid, json.dumps(self.srvs[rid]))
         except Exception as e:
             Log(LOG_ERROR, "DeployCtrl", "__dealActiveSuc(%s) failed: %s"%(value, e))
 
@@ -116,8 +117,8 @@ class DeployCtrl:
             for rid in self.srvs.keys():
                 self.producer.Produce("deploy_d", json.dumps({"update":{"rid":rid, "project":prj,"module":module,"version":version,"hash":hash,"url":url, "code":code,"force":1}}).encode("utf8"))
             pmKey = self.__prjModule2Key(prj, module)
-            if pmKey not in self.publish: self.publish[pmKey] = {version:(hash, code, url, "%s"%datetime.datetime.now())}
-            else: self.publish[pmKey][version] = (hash, code, url, "%s"%datetime.datetime.now())
+            if pmKey not in self.publish: self.publish[pmKey] = {version:(hash, code, url, "%s#%s"%(datetime.datetime.now(), value.get("detail")))}
+            else: self.publish[pmKey][version] = (hash, code, url, "%s#%s"%(datetime.datetime.now(), value.get("detail")))
             self.db_pub.set(pmKey, json.dumps(self.publish[pmKey]))
         except Exception as e:
             Log(LOG_ERROR, "__dealPublish(%s) failed: %s"%(value, e))

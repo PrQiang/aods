@@ -15,7 +15,7 @@ class Publish:
         self.producer, self.ftpsInfo, self.pubTopic, self.pubUrl = KafkaProducer(brokers), ftpsInfo,  pubTopic, pubUrl
 
 
-    def Publish(self, prj, mn, ver, folder, pubFileName, pubType):
+    def Publish(self, prj, mn, ver, folder, pubFileName, pubType, detail = ''):
         try:
             decryptFileName, encryptFileName, data = '%s.%s.db'%(pubFileName, ver), '%s.%s.en.db'%(pubFileName, ver), None
             if not self.__packetFile(decryptFileName, folder):return print("打包%s:%s:%s失败"%(prj, mn, ver))# 打包文件
@@ -29,7 +29,7 @@ class Publish:
             with open(encryptFileName, "wb") as f: f.write(bytes(data)) # 加密文件
             if not self.__sftpUploadEncryptFile(encryptFileName): return print("上传文件失败")
             dir, fn = os.path.split(encryptFileName)
-            self.producer.Produce(self.pubTopic, json.dumps({"publish":{"project":prj, "module":mn, "version":ver, "hash":fileHash, "code":sk.decode(),"indexes":{"beta":[1],"alpha":[2],"stable":[i for i in range(3, 256)]}.get(pubType, [1]),  "url":"%s%s"%(self.pubUrl, fn)}}).encode())
+            self.producer.Produce(self.pubTopic, json.dumps({"publish":{"project":prj, "module":mn, "version":ver, "hash":fileHash, "code":sk.decode(),"indexes":{"beta":[1],"alpha":[2],"stable":[i for i in range(3, 256)]}.get(pubType, [1]),  "url":"%s%s"%(self.pubUrl, fn), "detail":detail}}).encode())
             return True
         except Exception as e:
             Log(LOG_ERROR, "Publish", "Run failed: %s"%e)
@@ -91,12 +91,12 @@ if __name__== '__main__':
         "sftpAddr":[("192.168.66.124", 22, 'root', 'password')],
         "prjs":[
             # 项目名,模块名,发布版本号,待发布文件目录，待发布文件名称前缀, 发布类型beta, alpha, stable, ...将会映射为段ID，如beta映射为1
-            ("aom", "aom-win", "0.0.0.0001", ".\\aods-x64-linux\\", ".\\aods-x64-linux", "beta")
+            ("aom", "aom-win", "0.0.0.0001", ".\\aods-x64-linux\\", ".\\aods-x64-linux", "beta", "fix the bug .1.023,220")
             ]
     }
     p = Publish(cfg["brokers"], cfg["sftpAddr"], cfg["pubTopic"], cfg["pubUrl"])
-    for (prj, mn, ver, folder, pubFileName, pubType) in cfg["prjs"]:
-        if not p.Publish(prj, mn, ver, folder, pubFileName, pubType):
+    for (prj, mn, ver, folder, pubFileName, pubType, detail) in cfg["prjs"]:
+        if not p.Publish(prj, mn, ver, folder, pubFileName, pubType, detail):
             os.system("pause")
             sys.exit(1)
     print("发布成功......")

@@ -96,7 +96,7 @@ void CAodsActiveModule::OnRecvAodsChannel(const char* pszChannelName, const unsi
 	AODS_AODC_MSG* pAAM =(AODS_AODC_MSG*)pucData;
 	if (EN_AODS_AODC_ACTV != pAAM->unMsgCode) {return;}// 不是激活消息，忽略	
 	AODS_AODC_ACTIVE* pAAA = (AODS_AODC_ACTIVE*)pAAM->szMsg;
-	if (EN_AODS_AODC_MSG_SIZE + EN_AODS_AODC_ACTIVATE_SIZE != (int)unDataLen){ // 传入参数消息结构不正确	
+	if (EN_AODS_AODC_MSG_SIZE + EN_AODS_AODC_ACTIVATE_SIZE != (int)unDataLen){ // 传入参数消息结构不正确
 		OnActiveFailedResult(pszChannelName, EN_ACT_RLT_DATAINV); // 发送激活结果消息
 		return;
 	}
