@@ -1,16 +1,16 @@
 import traceback, math
-from UpdateDetailDlg import UpdateDetailDlg
+from PublishDetailDlg import PublishDetailDlg
 from PySide2 import QtCore, QtWidgets, QtGui
 
 PI = 3.1415926
 
 class VersionGraphicItem(QtWidgets.QGraphicsItem):
-    def __init__(self, prj, module, v, dt, gid, hash, url, detail, rc):
+    def __init__(self, prj, module, v, dt, gid, hash, url, detail, usr, rc):
         super().__init__()
-        self.ver, self.dt, self.rc, self.prj, self.module, self.gid, self.hash, self.url, self.detail = v, dt, rc, prj, module, gid, hash, url, detail
+        self.ver, self.dt, self.rc, self.prj, self.module, self.gid, self.hash, self.url, self.detail, self.usr = v, dt, rc, prj, module, gid, hash, url, detail, usr
         self.setFlag(QtWidgets.QGraphicsItem.ItemIsSelectable)
         self.setCursor(QtCore.Qt.PointingHandCursor)
-        self.setToolTip("version: %s\r\nurl: %s\r\nhash: %s\r\ngroup: %s\r\nlast update time: %s\r\ndetail: \r\n%s"%(v, url, hash, gid, dt, detail))
+        self.setToolTip("version: %s\r\nurl: %s\r\nhash: %s\r\ngroup: %s\r\nlast update by %s at %s, details: \r\n%s"%(v, url, hash, gid, usr, dt, detail))
 
 
     def boundingRect(self):
@@ -27,7 +27,7 @@ class VersionGraphicItem(QtWidgets.QGraphicsItem):
 
 
     def mousePressEvent (self, event):
-        ud = UpdateDetailDlg(self.prj, self.module, self.ver)
+        ud = PublishDetailDlg(self.prj, self.module, self.ver)
         ud.showMaximized()
         ud.exec_()
 
@@ -87,19 +87,21 @@ class MiWidget(QtWidgets.QGraphicsView):
     """description of class"""
     def __init__(self):
         super().__init__()
-        self.gs, self.items = QtWidgets.QGraphicsScene(), []
+        self.gs, self.items, self.prj, self.module = QtWidgets.QGraphicsScene(), [], '', ''
         self.setScene(self.gs)
+        self.setToolTip("right click the space area to publish")
 
 
     def Update(self, prj, module, data):
         try:
+            self.prj, self.module = prj, module
             for item in self.items:
                 self.gs.removeItem(item)
             self.items.clear()
-            data.reverse()            
+            data.reverse()
             items, index, sz, lineNum, bw, span = [], 0, 96, 4, 32, 280
-            for (v, (dt, gid, hash, url, detail)) in data[:12]:
-                item = VersionGraphicItem(prj, module, v, dt, gid, hash, url, detail, QtCore.QRect(0, 0, sz, sz))
+            for (v, (dt, gid, hash, url, detail, usr)) in data[:12]:
+                item = VersionGraphicItem(prj, module, v, dt, gid, hash, url, detail, usr, QtCore.QRect(0, 0, sz, sz))
                 self.gs.addItem(item)
                 self.items.append(item)
                 if (int(index / lineNum) % 2) == 0: # even row
@@ -123,9 +125,8 @@ class MiWidget(QtWidgets.QGraphicsView):
     def resizeEvent(self, event):
         try:
             self.gs.setSceneRect(0, 0, event.size().width(), event.size().height())
-            self.gs.setBackgroundBrush(QtGui.QBrush(QtGui.QPixmap("./image/login_back-1.jpg").scaled(event.size(), mode=QtCore.Qt.SmoothTransformation)))
+            self.gs.setBackgroundBrush(QtGui.QBrush(QtGui.QPixmap("./image/bg.jpg").scaled(event.size(), mode=QtCore.Qt.SmoothTransformation)))
             self.gs.update()
         except Exception as e:
             print(e)
-        return super().resizeEvent(event)      
-        
+        return super().resizeEvent(event)          
