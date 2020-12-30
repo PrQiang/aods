@@ -15,44 +15,6 @@ class RestfulApiClient(object):
             return None
 
 
-    def QueryPms(self):
-        try:
-            return self.sendAndWaitRsp({"query_pms":{"cookie":DataModel.Instance().GetCookie()}})
-        except Exception as e:
-            print(e)
-            return None
-
-
-    def QueryMi(self, prj, module):
-        try:
-            return self.sendAndWaitRsp({"query_mi":{"cookie":DataModel.Instance().GetCookie(), "project":prj, "module":module}})
-        except Exception as e:
-            traceback.print_exc()
-            return None
-
-
-    def QueryUpdateDetail(self, prj, module, ver):
-        try:
-            return self.sendAndWaitRsp({"query_update_detail":{"cookie":DataModel.Instance().GetCookie(), "project":prj, "module":module, "version":ver}})
-        except Exception as e:
-            traceback.print_exc()
-
-
-    def QueryServerInfo(self, rids):
-        try:
-            return self.sendAndWaitRsp({"query_server":{"cookie":DataModel.Instance().GetCookie(), "rids":rids}})
-        except Exception as e:
-            traceback.print_exc()
-
-
-    def UpdateServerInfo(self, si):
-        return self.sendAndWaitRsp({"update_server":{"cookie":DataModel.Instance().GetCookie(),"si":si}})
-
-
-    def DeleteServers(self, rids):
-        return self.sendAndWaitRsp({"delete_servers":{"cookie":DataModel.Instance().GetCookie(),"rids":rids}})
-
-
     def Publish(self, prj, module, ver, gids, detail, code, hash, url):
         return self.sendAndWaitRsp({"publish":{"cookie":DataModel.Instance().GetCookie(), "project":prj, "module":module, "version":ver, "gids":gids, "detail":detail, "code":code, "hash":hash, "url":url}})
 

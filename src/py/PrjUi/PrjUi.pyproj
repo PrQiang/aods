@@ -40,6 +40,12 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="PrjUi.py" />
+    <Compile Include="PublishDlg.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="UIBaseDlg.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="RestfulApiClient.py">
       <SubType>Code</SubType>
     </Compile>
@@ -55,7 +61,7 @@
     <Compile Include="sshWidget.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="UpdateDetailDlg.py">
+    <Compile Include="PublishDetailDlg.py">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>

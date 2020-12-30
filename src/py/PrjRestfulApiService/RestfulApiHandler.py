@@ -4,6 +4,7 @@ from Logger import *
 from DbEngine import DbEngine
 from SafeMon import SafeMon
 
+
 class RestfulApiHandler(socketserver.BaseRequestHandler):
     def handle(self):
         try:
@@ -33,6 +34,8 @@ class RestfulApiHandler(socketserver.BaseRequestHandler):
                     self.__onUpdateServer(v)
                 elif k == "delete_servers":
                     self.__onDeleteServers(v)
+                elif k == "publish":
+                    self.__onPublish(v)
         except Exception as e:
             Log(LOG_ERROR, "RestfulApiHandler", "handle failed: %s"%(e))
 
@@ -120,7 +123,6 @@ class RestfulApiHandler(socketserver.BaseRequestHandler):
             Log(LOG_ERROR, "RestfulApiHandler", "query update detail info(%s) error for %s"%(v, e))
 
 
-
     def __onQueryServer(self, v):
         try:
             cookie = v.get("cookie")
@@ -132,7 +134,7 @@ class RestfulApiHandler(socketserver.BaseRequestHandler):
                 self.__rsp({"query_server_result":{"result":"failed", "detail":"Please authen first"}})
                 return
             # todo check permission
-            self.__rsp({ "query_server_result":{"result":"success", "detail":DbEngine.Instance().queryServer(v["rids"], usr)}})
+            self.__rsp({ "query_server_result":{"result":"success", "detail":DbEngine.Instance().queryServer(v["rids"], usr.decode())}})
         except Exception as e:
             Log(LOG_ERROR, "RestfulApiHandler", "query update detail info(%s) error for %s"%(v, e))
         
@@ -148,7 +150,7 @@ class RestfulApiHandler(socketserver.BaseRequestHandler):
                 self.__rsp({"update_server_result":{"result":"failed", "detail":"Please authen first"}})
                 return
             # todo check permission
-            self.__rsp({ "update_server_result":{"result":"success", "detail":DbEngine.Instance().updateServer(v["si"], usr)}})
+            self.__rsp({ "update_server_result":{"result":"success", "detail":DbEngine.Instance().updateServer(v["si"], usr.decode())}})
         except Exception as e:
             Log(LOG_ERROR, "RestfulApiHandler", "query update detail info(%s) error for %s"%(v, e))
 
@@ -169,15 +171,33 @@ class RestfulApiHandler(socketserver.BaseRequestHandler):
             Log(LOG_ERROR, "RestfulApiHandler", "query update detail info(%s) error for %s"%(v, e))
 
 
+    def __onPublish(self, v):
+        try:
+            cookie = v.get("cookie")
+            if not cookie:
+                self.__rsp({"publish_result":{"result":"failed for unathen"}})
+                return
+            usr = DbEngine.Instance().queryCookieUser(cookie)
+            if not usr:
+                self.__rsp({"publish_result":{"result":"failed", "detail":"Please authenticate first"}})
+                return
+            result = DbEngine.Instance().publish(v["project"], v["module"], v["version"], v["gids"], v["detail"], v["code"], v["hash"], v["url"], usr.decode())
+            if result == "success": # send publish message to deployctrl if not  audit
+                pass
+            self.__rsp({ "publish_result":{"result":"success", "detail":result}})
+        except Exception as e:
+            Log(LOG_ERROR, "RestfulApiHandler", "publish (%s) error for %s"%(v, e))
+
+
     def __rsp(self, data):
         try:
-            buf = json.dumps(data).encode()            
+            buf = json.dumps(data).encode()
             hash = zlib.crc32(buf, 0x50)
             enKey = Fernet.generate_key()
             enBuf = Fernet(enKey).encrypt(buf)
             enHash = zlib.crc32(enBuf, 0x32)
             self.request.sendall(struct.pack("<5I", len(enBuf), 1, enHash, hash, len(enKey)) + enKey + enBuf)
-        except Excetpion as e:
+        except Exception as e:
             Log(LOG_ERROR, "RestfulApiHandler", "response error for %s"%(e))
 
 

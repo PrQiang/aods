@@ -60,7 +60,7 @@ class SmWidget(QtWidgets.QWidget):
             w = QtWidgets.QWidget()
             w.setLayout(self.firstLineLay)
             w.setFixedHeight(44)
-            names = ["tag","ip", "location", "name", "password", "manage address", "system"]
+            names = ["tag","ip", "location", "login user name", "login password", "login address", "system"]
             self.tableWidget = QtWidgets.QTableWidget(0, len(names))
             for i in range(self.tableWidget.columnCount()):
                 item = QtWidgets.QTableWidgetItem(names[i])
@@ -102,6 +102,7 @@ class SmWidget(QtWidgets.QWidget):
 
 
     def appendItem(self, si):
+        self.tableWidget.setSortingEnabled(False)
         self.tableWidget.itemChanged.disconnect(self.onItemChanged)
         self.tableWidget.insertRow(self.tableWidget.rowCount())
         row = self.tableWidget.rowCount() - 1
@@ -127,28 +128,23 @@ class SmWidget(QtWidgets.QWidget):
         # password
         self.tableWidget.setCellWidget(row, 4, PasswordLineEdit(si.get("pwd"), self.tableWidget.item(row, 0)))
 
-
-        #item = QtWidgets.QTableWidgetItem()
-        #self.tableWidget.setItem(row, 4, item)
-
         # manage addr
         item = QtWidgets.QTableWidgetItem(si.get("ma", ''))
         item.setToolTip("manage address must be like ip:port, eg: 1.1.1.1:22")
-        self.tableWidget.setItem(row, 5, item)        
+        self.tableWidget.setItem(row, 5, item)
 
         # system info
         item = QtWidgets.QTableWidgetItem(si.get("system", ''))
         item.setFlags(~QtCore.Qt.ItemIsEditable)
         self.tableWidget.setItem(row, 6, item)
-
         self.tableWidget.itemChanged.connect(self.onItemChanged)
+        self.tableWidget.setSortingEnabled(True)
 
 
     def search(self, searchText):
         try:
             showRows = []
-            if not searchText:
-                showRows = self.tableWidget.items()
+            if not searchText: showRows = [row for row in range(self.tableWidget.rowCount())]
             else:
                 for item in self.tableWidget.findItems(searchText, QtCore.Qt.MatchContains&(~QtCore.Qt.MatchCaseSensitive)):
                     if item.row() not in showRows: showRows.append(item.row())
@@ -196,7 +192,7 @@ class SmWidget(QtWidgets.QWidget):
                 si = item.data(QtCore.Qt.UserRole)
                 if si and si.get("rid") not in rids:
                     rids.append(si.get("rid"))
-                    rows.append(item.row())            
+                    rows.append(item.row())
             rlt = RestfulApiClient().DeleteServers(rids)
             if not rlt or rlt.get("delete_servers_result", {}).get("result") != 'success': return # to tip the user is a better choice
             for row in sorted(rows, reverse = True):
@@ -222,7 +218,7 @@ class SmWidget(QtWidgets.QWidget):
                 if len(chk1) != 2: # check the ip and port maybe a better choice 
                     QtWidgets.QMessageBox(QtWidgets.QMessageBox.Information, "Tooltip", "must be like ip:port, eg: 1.1.1.1:22", parent = self).exec_()
                     return
-                si["ma"] = item.text() 
+                si["ma"] = item.text()
             else: return
             RestfulApiClient().UpdateServerInfo(si) # update chg info (async, show the failed info when failed later)
             self.tableWidget.item(item.row(),0).setData(QtCore.Qt.UserRole, si)

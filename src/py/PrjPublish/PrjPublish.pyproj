@@ -22,9 +22,13 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="KafkaProducer.py" />
+    <Compile Include="DataModel.py" />
     <Compile Include="Logger.py" />
     <Compile Include="Publish.py" />
+    <Compile Include="PublishByPara.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="RestfulApiClient.py" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="requirements.txt" />

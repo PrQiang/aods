@@ -2,15 +2,15 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>81c4fbc9-0d98-42db-bd01-ddf5d61180ae</ProjectGuid>
+    <ProjectGuid>3c3595fe-4eeb-4f98-ab6d-8920903e3758</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>RestfulApiService.py</StartupFile>
+    <StartupFile>PrjAudit.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
-    <Name>PrjRestfulApiService</Name>
-    <RootNamespace>PrjRestfulApiService</RootNamespace>
+    <Name>PrjAudit</Name>
+    <RootNamespace>PrjAudit</RootNamespace>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
@@ -21,21 +21,7 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="DbEngine.py">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="KafkaProducer.py" />
-    <Compile Include="Logger.py" />
-    <Compile Include="RestfulApiHandler.py">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="RestfulApiService.py" />
-    <Compile Include="SafeMon.py">
-      <SubType>Code</SubType>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="requirements.txt" />
+    <Compile Include="PrjAudit.py" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in

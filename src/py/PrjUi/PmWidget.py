@@ -55,7 +55,6 @@ class PmWidget(QtWidgets.QWidget):
             if result.get("query_mi_result", {}).get("result") != 'success':
                 print(result)
                 return
-            # query module info
             self.miWidget.Update(parItem.text(0), item.text(0), result["query_mi_result"]["detail"])
         except Exception as e:
             print(e)
