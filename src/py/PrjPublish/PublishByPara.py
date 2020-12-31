@@ -1,3 +1,4 @@
+
 """ 实现版本脚本发布功能
 """
 import zipfile, random, time, json, os, sys, zlib, paramiko
@@ -90,21 +91,20 @@ if __name__== '__main__':
         "pubUrl":"http://192.168.221.134:8210/", # 发布后下载url路径
         "pubTopic":"publish", # 
         "sftpAddr":[("192.168.221.134", 22, 'root', 'Baidu.com22')], # sftp上传ip、端口、账号、密码
-        "prjs":[
-            # 项目名,模块名,发布版本号,待发布文件目录，待发布文件名称前缀,发布描述
-            ("aods", "aods-x64-win", "0.0.0.0001", ".\\aods-x64-win\\", "aods-x64-win", "fix the bug .1.023,1"),
-            ("aods", "aodc-x64-win", "0.0.0.0001", ".\\aodc-x64-win\\", "aodc-x64-win", "fix the bug .1.023,1")
-            ]
+        #"prjs":[
+        #    # 项目名,模块名,发布版本号,待发布文件目录，待发布文件名称前缀,发布描述
+        #    ("aods", "aods-x64-win", "0.0.0.0001", ".\\aods-x64-win\\", "aods-x64-win", "fix the bug .1.023,1"),
+        #    ("aods", "aodc-x64-win", "0.0.0.0001", ".\\aodc-x64-win\\", "aodc-x64-win", "fix the bug .1.023,1")
+        #    ]
     }    
     rlt = RestfulApiClient().Login(cfg['usr'], cfg['password']) # 修改为api发布消息
     if not rlt or rlt["login_result"]["result"] != "success":
         Log(LOG_ERROR, "Publish","Failed to login")
         sys.exit(1)
     DataModel.Instance().UpdateUser(rlt["login_result"])
+
     p = Publish(cfg["sftpAddr"], cfg["pubUrl"])
-    for (prj, mn, ver, folder, pubFileName, detail) in cfg["prjs"]:
-        if not p.Publish(prj, mn, ver, folder, pubFileName, detail):
-            os.system("pause")
-            sys.exit(1)
-    print("执行结束......")
-    time.sleep(20.0)
+    (prj, mn, ver, folder, pubFileName, detail) = sys.argv[1:]    
+    if not p.Publish(prj, mn, ver, folder, pubFileName, detail):
+        sys.exit(1)
+    sys.exit(0)

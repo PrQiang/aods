@@ -1,13 +1,12 @@
 import sys, os
-from PySide2 import QtWidgets
+from PySide2 import QtWidgets, QtCore
 from LoginDlg import LoginDlg
 from PmWidget import PmWidget
 from SmWidget import SmWidget
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication([])
-    # do login
-    dlg = LoginDlg()
+    dlg = LoginDlg()# do login
     if dlg.exec_() != dlg.Accepted:
         sys.exit(0)
     try:

@@ -133,7 +133,7 @@ void CUpdateModuleMgr::OnDownloadResult(const MT_MSG* pMM){
                 CAoProcess ap; ap.RunCmd(szFile);
         }
 #endif
-        } while (au.GotoNextFile());
+        } while (0 == au.GotoNextFile());
     }
     int nRet = CAoFileControl::DelFile(pszSaveFile);// 删除发布文件
     if (0 != nRet){LogErr("CUpdateModuleMgr::OnDownloadResult", "文件(%s)删除失败: %d", pszSaveFile, nRet);}
