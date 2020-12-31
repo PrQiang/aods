@@ -1,18 +1,18 @@
-import json, redis, random, datetime
+import json, redis, random, datetime, sys
 from Logger import *
 from KafkaConsumer import KafkaConsumer
 from KafkaProducer import KafkaProducer
 
 class DeployCtrl:
-    def __init__(self, brokers, ra, gid, index):
-        self.brokers, self.ra, self.gid, self.index = brokers, ra, gid, bytes([int(index)%255]).hex()
+    def __init__(self, brokers, ra, index):
+        self.brokers, self.ra, self.index = brokers, ra,  bytes([int(index)%255]).hex()
 
 
     def Run(self):
         try:
             self.InitDb()
             self.producer = KafkaProducer(self.brokers)
-            self.consumer = KafkaConsumer(self.brokers, ["deploy_u", "publish"], self, self.gid)
+            self.consumer = KafkaConsumer(self.brokers, ["deploy_u", "publish"], self, "deploy-%s"%(self.index))
             self.consumer.join()
         except Exception as e:
             Log(LOG_ERROR, "DeployCtrl", "Run Failed: %s"%e)
@@ -20,13 +20,23 @@ class DeployCtrl:
 
     def InitDb(self):
         try:
-            (addr, port) = self.ra.split(":")
-            self.db_mgr = redis.Redis(host=addr, port = int(port), db = 1, password='pd3@a^,.)992') # 服务器管理集合
-            self.srvs = dict([(key.decode(), json.loads(self.db_mgr.get(key))) for key in self.db_mgr.keys("%s*"%(self.index))])
-            self.db_pub = redis.Redis(host=addr, port = int(port), db = 2, password='pd3@a^,.)992') # 发布管理集合
-            self.publish = dict([(key.decode(), json.loads(self.db_pub.get(key))) for key in self.db_pub.keys("%s*"%(self.index))])
-            self.db_log = redis.Redis(host=addr, port = int(port), db = 3, password='pd3@a^,.)992') # 发布日志集合
-            self.db_cli = redis.Redis(host=addr, port = int(port), db = 4, password='pd3@a^,.)992') # 客户端版本信息
+            (addr, port), pwd = self.ra.split(":"), 'pd3@a^,.)992'
+            self.db_mgr, self.srvs = redis.Redis(host=addr, port = int(port), db = 1, password=pwd), {} # 服务器管理集合
+            for key in self.db_mgr.keys("%s*"%(self.index)):
+                self.srvs[key.decode()] = json.loads(self.db_mgr.get(key))
+
+            self.db_pub = redis.Redis(host=addr, port = int(port), db = 2, password=pwd) # 发布管理集合
+            self.publish = {}
+            for key in self.db_pub.keys('%s#*'%(self.index)):
+                gid, prj, mn, ver = key.decode().split('#')
+                hash, code, url, dt, detail, usr = json.loads(self.db_pub.get(key).decode())
+                pk = self.__prjModule2Key(prj, mn)
+                if pk not in self.publish:self.publish[pk] = (ver, hash, code, url, dt, detail, usr)
+                else:
+                    ver2, hash2, code2, url2, dt2, detail2, usr2 = self.publish[pk]
+                    if dt2 < dt:self.publish[pk] = (ver, hash, code, url, dt, detail, usr)
+            self.db_log = redis.Redis(host=addr, port = int(port), db = 3, password=pwd) # 发布日志集合
+            self.db_cli = redis.Redis(host=addr, port = int(port), db = 4, password=pwd) # 客户端版本信息
         except Exception as e:
             Log(LOG_ERROR,"DeployCtrl", "InitDb Failed: %s"%e)
 
@@ -50,7 +60,8 @@ class DeployCtrl:
         try:            
             if self.index != bytes([value.get("index", 0)]).hex(): return
             rid = self.__generalRid() # 生成唯一标识,并保存至内存中
-            self.srvs[rid] = {}
+            ips = ",".join(value.get("ip", []))
+            self.srvs[rid] = {"ip":ips, "flag":ips}
             self.producer.Produce("deploy_d", json.dumps({"active_ack":{"uuid":value.get("uuid",""), "rid":rid, "ack":0}}).encode("utf8"))
         except Exception as e:
             Log(LOG_ERROR, "DeployCtrl", "__dealActive(%s) failed: %s"%(value, e))
@@ -67,8 +78,8 @@ class DeployCtrl:
         try:
             rid, active_code = value.get("rid"), value.get("active_code")
             if rid is None or active_code is None or rid not in self.srvs: return
-            value = self.srvs[rid] = {"active_code" : active_code, "deploy" : {}}
-            self.db_mgr.set(rid, json.dumps(value))
+            self.srvs[rid].update({"active_code" : active_code, "deploy" : {}})
+            self.db_mgr.set(rid, json.dumps(self.srvs[rid]))
         except Exception as e:
             Log(LOG_ERROR, "DeployCtrl", "__dealActiveSuc(%s) failed: %s"%(value, e))
 
@@ -86,10 +97,13 @@ class DeployCtrl:
 
     def __dealUpdateCheck(self, value):
         try:
-            if self.srvs.get(value.get("rid")) is None: return
-            print("__dealUpdateCheck(%s)"%(value))
-            pmKey = self.__prjModule2Key(value.get("project"), value.get("module"))
-            (ver, hash, url, code) = self.__getNewestVer(pmKey)
+            srv = self.srvs.get(value.get("rid"))
+            if srv is None: return
+            pmk = self.__prjModule2Key(value.get("project"), value.get("module"))
+            if srv["deploy"].get(pmk, (None, None)) != (value.get("version"), value.get("hash")):
+                srv["deploy"][pmk] = (value.get("version"), value.get("hash"))
+                self.db_mgr.set(value.get("rid"), json.dumps(srv)) # update
+            (ver, hash, code, url, dt, detail, usr) = self.publish.get(pmk, (None, None,None,None, None, None, None))
             if ver is None:return
             if ver != value.get("version") or hash != value.get("hash"):
                 self.producer.Produce("deploy_d",json.dumps({"update":{"rid":value.get("rid"),"project":value.get("project"),"module":value.get("module"),"version":ver,"hash":hash,"url":url,"code":code,"force":1}}).encode("utf8"))
@@ -100,10 +114,9 @@ class DeployCtrl:
     def __dealUpdateResult(self, value):
         try:
             if self.srvs.get(value.get("rid")) is None: return
-            print("__dealUpdateResult(%s)"%(value))
             prj, module, version, hash, result = value.get("project"), value.get("module"), value.get("version"), value.get("hash"), value.get("result")
             result = {0:"更新成功", 1:"下载失败", 2:"保存失败", 3:"校验失败", 4:"解压失败", 5:"执行失败"}.get(result, "未知错误")
-            self.db_log.set(self.__ridPrjModuleKeyVersion(value.get("rid"), prj, module, version), "%s#%s"%(result, datetime.datetime.now()))
+            self.db_log.set(self.__ridPrjModuleKeyVersion(value.get("rid"), prj, module, version), "%s#%s"%(result, datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")))
             if result == "更新成功": pass # 记录设备当前版本号
         except Exception as e:
             Log(LOG_ERROR, "DeployCtrl", "__dealUpdateResult(%s) failed: %s"%(value, e))
@@ -112,13 +125,13 @@ class DeployCtrl:
     def __dealPublish(self, value):
         try:
             if self.index not in [bytes([index%255]).hex() for index in value.get('indexes', [])]:return
-            prj, module, version, hash, code, url = value.get("project"), value.get("module"), value.get("version"), value.get("hash"), value.get("code"), value.get("url")
+            prj, module, version, hash, code, url, dt = value.get("project"), value.get("module"), value.get("version"), value.get("hash"), value.get("code"), value.get("url"), value.get("datetime")
+            pmKey = self.__prjModule2Key(prj, module)
+            ver2, hash2, code2, url2, dt2, detail2, usr2 = self.publish.get(pmKey, (None, None,None,None, None, None, None))
+            if dt2 and dt2 > dt:return # 从kafka上收到的发布消息不是最新的，忽视掉
+            self.publish[pmKey] = (version, hash, code, url, dt, value.get("detail"), value.get("user"))
             for rid in self.srvs.keys():
                 self.producer.Produce("deploy_d", json.dumps({"update":{"rid":rid, "project":prj,"module":module,"version":version,"hash":hash,"url":url, "code":code,"force":1}}).encode("utf8"))
-            pmKey = self.__prjModule2Key(prj, module)
-            if pmKey not in self.publish: self.publish[pmKey] = {version:(hash, code, url, "%s"%datetime.datetime.now())}
-            else: self.publish[pmKey][version] = (hash, code, url, "%s"%datetime.datetime.now())
-            self.db_pub.set(pmKey, json.dumps(self.publish[pmKey]))
         except Exception as e:
             Log(LOG_ERROR, "__dealPublish(%s) failed: %s"%(value, e))
 
@@ -131,15 +144,8 @@ class DeployCtrl:
         return "%s#%s#%s#%s"%(rid,prj,module,version)
 
 
-    def __getNewestVer(self, pmKey):
-        info = self.publish.get(pmKey)
-        if not info: return (None, None, None, None)
-        rv, rh, ru, rc, rt = None, None, None, None, None
-        for ver, (hash, code, url, pubTime) in info.items():
-            if rv is None or datetime.datetime.fromisoformat(rt) < datetime.datetime.fromisoformat(pubTime): 
-                rv, rh, ru, rc, rt = ver, hash, url, code, pubTime
-        return rv, rh, ru, rc
-
-
 if __name__ == "__main__":
-    DeployCtrl("192.168.66.124:9092", "192.168.66.124:65379", "deploy-1", 1).Run()
+    if len(sys.argv) < 4:
+        DeployCtrl("192.168.221.134:9092", "192.168.221.134:65379", 1).Run()
+    else:
+        DeployCtrl(sys.argv[1], sys.argv[2], int(sys.argv[3])).Run()

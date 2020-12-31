@@ -128,7 +128,7 @@ class DeployCtrl:
             prj, module, version, hash, code, url, dt = value.get("project"), value.get("module"), value.get("version"), value.get("hash"), value.get("code"), value.get("url"), value.get("datetime")
             pmKey = self.__prjModule2Key(prj, module)
             ver2, hash2, code2, url2, dt2, detail2, usr2 = self.publish.get(pmKey, (None, None,None,None, None, None, None))
-            if dt2 > dt:return # 从kafka上收到的发布消息不是最新的，忽视掉
+            if dt2 and dt2 > dt:return # 从kafka上收到的发布消息不是最新的，忽视掉
             self.publish[pmKey] = (version, hash, code, url, dt, value.get("detail"), value.get("user"))
             for rid in self.srvs.keys():
                 self.producer.Produce("deploy_d", json.dumps({"update":{"rid":rid, "project":prj,"module":module,"version":version,"hash":hash,"url":url, "code":code,"force":1}}).encode("utf8"))

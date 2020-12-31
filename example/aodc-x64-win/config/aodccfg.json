@@ -10,7 +10,7 @@
 		}
 	},
 	"259":{
-		"brokers":"192.168.66.124:9092",
+		"brokers":"192.168.212.134:9092",
 		"producer_topic":"deploy_u",
 		"consumer_topic":"deploy_d",
 		"consumer_gid":"aodc-2"

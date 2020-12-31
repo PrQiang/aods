@@ -2,20 +2,19 @@
 """
 import zipfile, random, time, json, os, sys, zlib, paramiko
 from Logger import*
-from KafkaProducer import KafkaProducer
+from DataModel import DataModel
+from RestfulApiClient import RestfulApiClient
 
 class Publish:
-    def __init__(self, brokers, ftpsInfo, pubTopic, pubUrl):
+    def __init__(self, ftpsInfo, pubUrl):
         """
-        # brokers： kafka地址: 如： 127.0.0.1:6539
         # ftpsInfo: ftp上传信息集, 如: [("127.0.0.1", 22, 'usr', 'pwd')]
         # pubUrl: 发布url地址: 如 http://aa.bb.com:8888/update/
-        # pubTopic: 通知主题
         """
-        self.producer, self.ftpsInfo, self.pubTopic, self.pubUrl = KafkaProducer(brokers), ftpsInfo,  pubTopic, pubUrl
+        self.ftpsInfo, self.pubUrl = ftpsInfo,  pubUrl
 
 
-    def Publish(self, prj, mn, ver, folder, pubFileName, pubType):
+    def Publish(self, prj, mn, ver, folder, pubFileName, detail = ''):
         try:
             decryptFileName, encryptFileName, data = '%s.%s.db'%(pubFileName, ver), '%s.%s.en.db'%(pubFileName, ver), None
             if not self.__packetFile(decryptFileName, folder):return print("打包%s:%s:%s失败"%(prj, mn, ver))# 打包文件
@@ -29,7 +28,8 @@ class Publish:
             with open(encryptFileName, "wb") as f: f.write(bytes(data)) # 加密文件
             if not self.__sftpUploadEncryptFile(encryptFileName): return print("上传文件失败")
             dir, fn = os.path.split(encryptFileName)
-            self.producer.Produce(self.pubTopic, json.dumps({"publish":{"project":prj, "module":mn, "version":ver, "hash":fileHash, "code":sk.decode(),"indexes":{"beta":[1],"alpha":[2],"stable":[i for i in range(3, 256)]}.get(pubType, [1]),  "url":"%s%s"%(self.pubUrl, fn)}}).encode())
+            result = RestfulApiClient().Publish(prj, mn, ver, [1, ], detail, sk.decode(), fileHash, "%s%s"%(self.pubUrl, fn))
+            Log(LOG_INFO, "Publish", json.dumps(result))
             return True
         except Exception as e:
             Log(LOG_ERROR, "Publish", "Run failed: %s"%e)
@@ -85,19 +85,28 @@ class Publish:
 
 if __name__== '__main__':
     cfg = {
-        "brokers":"192.168.66.124:9092",
-        "pubUrl":"http://192.168.66.124:8210/",
-        "pubTopic":"publish",
-        "sftpAddr":[("192.168.66.124", 22, 'root', 'password')],
+        "usr":"master", # 登录UI用账号
+        "password":"master@er.com",# 登录UI用密码
+        "pubUrl":"http://192.168.221.134:8210/", # 发布后下载url路径
+        "pubTopic":"publish", # 
+        "sftpAddr":[("192.168.221.134", 22, 'root', 'Baidu.com22')], # sftp上传ip、端口、账号、密码
         "prjs":[
-            # 项目名,模块名,发布版本号,待发布文件目录，待发布文件名称前缀, 发布类型beta, alpha, stable, ...
-            ("aom", "aom-win", "0.0.0.0001", "D:\\test\\publish\\aods-x64-linux\\", "D:\\test\\publish\\aods-x64-linux", "beta")
+            # 项目名,模块名,发布版本号,待发布文件目录，待发布文件名称前缀,发布描述
+            ("aods", "aods-x64-win", "0.0.0.0001", "..\\aods-x64-win\\", "aods-x64-win", "fix the bug .1.023,1"),
+            ("aods", "aods-x86-win", "0.0.0.0001", "..\\aods-x86-win\\", "aods-x86-win", "fix the bug .1.023,1"),
+            ("aods", "aods-x64-linux", "0.0.0.0001", "..\\aods-x64-linux\\", "aods-x64-linux", "fix the bug .1.023,1"),
+            ("aods", "aodc-x64-win", "0.0.0.0001", "..\\aodc-x64-win\\", "aodc-x64-win", "fix the bug .1.023,1")
             ]
-    }
-    p = Publish(cfg["brokers"], cfg["sftpAddr"], cfg["pubTopic"], cfg["pubUrl"])
-    for (prj, mn, ver, folder, pubFileName, pubType) in cfg["prjs"]:
-        if not p.Publish(prj, mn, ver, folder, pubFileName, pubType):
+    }    
+    rlt = RestfulApiClient().Login(cfg['usr'], cfg['password']) # 修改为api发布消息
+    if not rlt or rlt["login_result"]["result"] != "success":
+        Log(LOG_ERROR, "Publish","Failed to login")
+        sys.exit(1)
+    DataModel.Instance().UpdateUser(rlt["login_result"])
+    p = Publish(cfg["sftpAddr"], cfg["pubUrl"])
+    for (prj, mn, ver, folder, pubFileName, detail) in cfg["prjs"]:
+        if not p.Publish(prj, mn, ver, folder, pubFileName, detail):
             os.system("pause")
             sys.exit(1)
-    print("发布成功......")
+    print("执行结束......")
     time.sleep(20.0)
