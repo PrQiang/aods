@@ -3,7 +3,7 @@
         "AodcClient":{
             "Type" : "TcpClientChanel",
             "Protocol" : "AoCommuProtocol",
-            "Para" : ["192.168.66.8:2072", "192.168.221.134:2072"]
+            "Para" : ["192.168.66.12:2072", "aodc.ao.com:2072"]
             }
      }
 }
