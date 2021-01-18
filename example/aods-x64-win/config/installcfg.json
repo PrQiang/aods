@@ -1,9 +1,0 @@
-{
-    "3":{
-        "AodcClient":{
-            "Type" : "TcpClientChanel",
-            "Protocol" : "AoCommuProtocol",
-            "Para" : ["192.168.66.12:2072", "aodc.ao.com:2072"]
-            }
-     }
-}
