@@ -1,0 +1,8 @@
+{
+	"aods": {
+		"aods-x64-linux": {
+			"WorkDir": "./",
+			"Command": "service aods restart"
+		}
+	}
+}

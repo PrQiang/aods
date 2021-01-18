@@ -1,0 +1,11 @@
+
+src/dev/.vs/aods/v16/.suo
+src/dev/.vs/aods/v16/Browse.VC.db
+/obj
+/symbols/v100/Win32/Debug/x86
+*.pdb
+/src/dev/.vs/aods/v16
+*.user
+*.suo
+/src/py/.vs/ao/v16
+*.pyc

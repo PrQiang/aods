@@ -1,0 +1,256 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{7C1B9F17-AE29-4034-9603-D81B07C12E57}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>install</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v100</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v100</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v100</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v100</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>../../../bin/$(PlatformName)/$(Configuration)/</OutDir>
+    <IntDir>../../../obj/$(PlatformName)/$(Configuration)/$(ProjectName)/</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>../../../bin/$(PlatformName)/$(Configuration)/</OutDir>
+    <IntDir>../../../obj/$(PlatformName)/$(Configuration)/$(ProjectName)/</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>../../../bin/$(PlatformName)/$(Configuration)/</OutDir>
+    <IntDir>../../../obj/$(PlatformName)/$(Configuration)/$(ProjectName)/</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>../../../bin/$(PlatformName)/$(Configuration)/</OutDir>
+    <IntDir>../../../obj/$(PlatformName)/$(Configuration)/$(ProjectName)/</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level4</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <DisableSpecificWarnings>4996</DisableSpecificWarnings>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SuppressStartupBanner>false</SuppressStartupBanner>
+      <ProgramDatabaseFile>../../../symbols/$(PlatformToolSet)/$(PlatformName)/$(Configuration)/$(PlatformTarget)/$(TargetName).pdb</ProgramDatabaseFile>
+      <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
+      <AdditionalDependencies>WS2_32.lib;iphlpapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level4</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <DisableSpecificWarnings>4996</DisableSpecificWarnings>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SuppressStartupBanner>false</SuppressStartupBanner>
+      <ProgramDatabaseFile>../../../symbols/$(PlatformToolSet)/$(PlatformName)/$(Configuration)/$(PlatformTarget)/$(TargetName).pdb</ProgramDatabaseFile>
+      <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
+      <AdditionalDependencies>WS2_32.lib;iphlpapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level4</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <DisableSpecificWarnings>4996</DisableSpecificWarnings>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <SuppressStartupBanner>false</SuppressStartupBanner>
+      <ProgramDatabaseFile>../../../symbols/$(PlatformToolSet)/$(PlatformName)/$(Configuration)/$(PlatformTarget)/$(TargetName).pdb</ProgramDatabaseFile>
+      <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
+      <AdditionalDependencies>WS2_32.lib;iphlpapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level4</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <DisableSpecificWarnings>4996</DisableSpecificWarnings>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <SuppressStartupBanner>false</SuppressStartupBanner>
+      <ProgramDatabaseFile>../../../symbols/$(PlatformToolSet)/$(PlatformName)/$(Configuration)/$(PlatformTarget)/$(TargetName).pdb</ProgramDatabaseFile>
+      <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
+      <AdditionalDependencies>WS2_32.lib;iphlpapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\util\AoCfgModule.cpp" />
+    <ClCompile Include="..\util\AoChannel.cpp" />
+    <ClCompile Include="..\util\AoCommuProtocol.cpp" />
+    <ClCompile Include="..\util\AoEncrypt.cpp" />
+    <ClCompile Include="..\util\AoEvent.cpp" />
+    <ClCompile Include="..\util\AoFile.cpp" />
+    <ClCompile Include="..\util\AoFileControl.cpp" />
+    <ClCompile Include="..\util\AoFindFile.cpp" />
+    <ClCompile Include="..\util\AoHash.cpp" />
+    <ClCompile Include="..\util\AoHelper.cpp" />
+    <ClCompile Include="..\util\AoIoSelectGroup.cpp" />
+    <ClCompile Include="..\util\AoList.cpp" />
+    <ClCompile Include="..\util\AoLock.cpp" />
+    <ClCompile Include="..\util\AoLogModule.cpp" />
+    <ClCompile Include="..\util\AoMemCache.cpp" />
+    <ClCompile Include="..\util\AoMemoryMgr.cpp" />
+    <ClCompile Include="..\util\AoMemStream.cpp" />
+    <ClCompile Include="..\util\AoOs.cpp" />
+    <ClCompile Include="..\util\AoProcess.cpp" />
+    <ClCompile Include="..\util\AoService.cpp" />
+    <ClCompile Include="..\util\AoSock.cpp" />
+    <ClCompile Include="..\util\AoSockChannel.cpp" />
+    <ClCompile Include="..\util\AoSockTcp.cpp" />
+    <ClCompile Include="..\util\AoSockTcpChannel.cpp" />
+    <ClCompile Include="..\util\AoStream.cpp" />
+    <ClCompile Include="..\util\AoTcpServer.cpp" />
+    <ClCompile Include="..\util\AoThread.cpp" />
+    <ClCompile Include="..\util\AoTime.cpp" />
+    <ClCompile Include="..\util\CJson.cpp" />
+    <ClCompile Include="..\util\CommuModule.cpp" />
+    <ClCompile Include="..\util\DBACommuProtocol.cpp" />
+    <ClCompile Include="..\util\Module.cpp" />
+    <ClCompile Include="..\util\ModuleData.cpp" />
+    <ClCompile Include="..\util\ModuleDispatcher.cpp" />
+    <ClCompile Include="..\util\MsgTarget.cpp" />
+    <ClCompile Include="AodsActiveModule.cpp" />
+    <ClCompile Include="main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\util\AoCfgModule.h" />
+    <ClInclude Include="..\util\AoChannel.h" />
+    <ClInclude Include="..\util\AoCommuProtocol.h" />
+    <ClInclude Include="..\util\AoDef.h" />
+    <ClInclude Include="..\util\AoEncrypt.h" />
+    <ClInclude Include="..\util\AoEvent.h" />
+    <ClInclude Include="..\util\AoFile.h" />
+    <ClInclude Include="..\util\AoFileControl.h" />
+    <ClInclude Include="..\util\AoFindFile.h" />
+    <ClInclude Include="..\util\AoHash.h" />
+    <ClInclude Include="..\util\AoHelper.h" />
+    <ClInclude Include="..\util\AoIoSelectGroup.h" />
+    <ClInclude Include="..\util\AoList.h" />
+    <ClInclude Include="..\util\AoLock.h" />
+    <ClInclude Include="..\util\AoLogModule.h" />
+    <ClInclude Include="..\util\AoMemCache.h" />
+    <ClInclude Include="..\util\AoMemoryMgr.h" />
+    <ClInclude Include="..\util\AoMemStream.h" />
+    <ClInclude Include="..\util\AoOs.h" />
+    <ClInclude Include="..\util\AoProcess.h" />
+    <ClInclude Include="..\util\AoService.h" />
+    <ClInclude Include="..\util\AoSock.h" />
+    <ClInclude Include="..\util\AoSockChannel.h" />
+    <ClInclude Include="..\util\AoSockTcp.h" />
+    <ClInclude Include="..\util\AoSockTcpChannel.h" />
+    <ClInclude Include="..\util\AoStream.h" />
+    <ClInclude Include="..\util\AoTcpServer.h" />
+    <ClInclude Include="..\util\AoThread.h" />
+    <ClInclude Include="..\util\AoTime.h" />
+    <ClInclude Include="..\util\CJson.h" />
+    <ClInclude Include="..\util\CommuModule.h" />
+    <ClInclude Include="..\util\DBACommuProtocol.h" />
+    <ClInclude Include="..\util\Module.h" />
+    <ClInclude Include="..\util\ModuleData.h" />
+    <ClInclude Include="..\util\ModuleDispatcher.h" />
+    <ClInclude Include="..\util\MsgTarget.h" />
+    <ClInclude Include="AodsActiveModule.h" />
+    <ClInclude Include="InstallDef.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

@@ -1,0 +1,18 @@
+/*
+配置采用json格式
+注1：除Para项需要调整外，其余项保持固定不变
+注2：部署时请移除此段注释
+Para参数解释：
+    该项为与aodc通讯地址列表项，当与当前aodc通讯故障时自动切换至下一个服务端节点，轮询结束后又从第一个节点开始
+    单项支持IP:Port和域名:Port两种方式
+    通讯端口需要与aodc配置保持一致
+*/
+{
+    "3":{
+        "AodcClient":{
+            "Type" : "TcpClientChanel",
+            "Protocol" : "AoCommuProtocol",
+            "Para" : ["192.168.66.12:2072", "aodc.ao.com:2072"]
+            }
+     }
+}

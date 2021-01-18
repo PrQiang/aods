@@ -1,0 +1,32 @@
+/*
+配置采用json格式
+注1：除Address、brokers、consumer_gid需要调整外，其余项保持固定不变
+注2：部署时请移除此段注释
+
+Address参数解释：
+    该项为aodc tcp监听地址,端口可以修改，但需要与install和aods保持一致
+
+brokers参数解释: 
+    该项kafka brokers地址表，多节点采用,隔开
+
+consumer_gid参数解释:
+    该项为consumer消费组ID，可自定，建议不在相同消费组的aodc配置不同的id
+*/
+{
+	"3":{
+	"TcpServer": {
+			"Type": "TcpServer",
+			"Protocol": "AoCommuProtocol",
+			"Para": [{
+				"Name": "AodsServer",
+				"Address": "0.0.0.0:2072"
+			}]
+		}
+	},
+	"259":{
+		"brokers":"192.168.66.124:9092",
+		"producer_topic":"deploy_u",
+		"consumer_topic":"deploy_d",
+		"consumer_gid":"aodc-1"
+	}
+}
